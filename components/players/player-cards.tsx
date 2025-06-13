@@ -41,7 +41,7 @@ export function PlayerCards({ position, searchQuery = "" }: PlayerCardsProps) {
       case "Defense":
         return "from-amber-500 to-amber-600"
       case "Goalie":
-        return "from-purple-500 to-purple-600"
+        return "from-blue-500 to-blue-600"
       default:
         return "from-blue-500 to-blue-600"
     }

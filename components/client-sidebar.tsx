@@ -3,7 +3,11 @@
 import { Sidebar } from "@/components/sidebar"
 import { useSidebar } from "@/app/providers"
 
-export function ClientSidebar() {
+interface ClientSidebarProps {
+  isCollapsed?: boolean
+}
+
+export function ClientSidebar({ isCollapsed = false }: ClientSidebarProps) {
   const { isOpen } = useSidebar()
-  return <Sidebar isOpen={isOpen} />
+  return <Sidebar isOpen={isOpen} isCollapsed={isCollapsed} />
 }

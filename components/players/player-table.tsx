@@ -106,9 +106,8 @@ export function PlayerTable({ position, searchQuery = "" }: PlayerTableProps) {
             {filteredPlayers.map((player, index) => (
               <TableRow
                 key={player.id}
-                className={`cursor-pointer transition-all duration-200 hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-indigo-50/30 border-b border-slate-100/60 ${
-                  index % 2 === 0 ? "bg-white/30" : "bg-slate-50/30"
-                }`}
+                className={`cursor-pointer transition-all duration-200 hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-indigo-50/30 border-b border-slate-100/60 ${index % 2 === 0 ? "bg-white/30" : "bg-slate-50/30"
+                  }`}
                 onClick={() => setSelectedPlayer(player)}
               >
                 <TableCell className="font-semibold text-slate-900">{player.number}</TableCell>
@@ -129,13 +128,12 @@ export function PlayerTable({ position, searchQuery = "" }: PlayerTableProps) {
                 <TableCell>
                   <Badge
                     variant="outline"
-                    className={`border-slate-200/60 ${
-                      player.position === "Forward"
+                    className={`border-slate-200/60 ${player.position === "Forward"
                         ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                         : player.position === "Defense"
                           ? "bg-amber-50 text-amber-700 border-amber-200"
-                          : "bg-purple-50 text-purple-700 border-purple-200"
-                    }`}
+                          : "bg-blue-50 text-blue-700 border-blue-200"
+                      }`}
                   >
                     {player.position}
                   </Badge>

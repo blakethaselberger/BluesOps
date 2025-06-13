@@ -9,56 +9,79 @@ export default function SettingsPage() {
   return (
     <div className="flex flex-col gap-4 p-4 md:gap-8 md:p-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
-        <p className="text-muted-foreground">Manage your account and preferences</p>
+        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight">Settings</h1>
+        <p className="text-slate-600 text-sm md:text-base">Manage your account and preferences</p>
       </div>
       <Tabs defaultValue="profile" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="team">Team</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="security">Security</TabsTrigger>
-        </TabsList>
+        <div className="bg-white rounded-lg p-1 shadow-sm border">
+          <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 h-auto gap-1 bg-transparent">
+            <TabsTrigger
+              value="profile"
+              className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-none rounded-md py-2 md:py-3 font-medium text-xs md:text-sm"
+            >
+              Profile
+            </TabsTrigger>
+            <TabsTrigger
+              value="team"
+              className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-none rounded-md py-2 md:py-3 font-medium text-xs md:text-sm"
+            >
+              Team
+            </TabsTrigger>
+            <TabsTrigger
+              value="notifications"
+              className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-none rounded-md py-2 md:py-3 font-medium text-xs md:text-sm"
+            >
+              <span className="md:hidden">Notifs</span>
+              <span className="hidden md:inline">Notifications</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="security"
+              className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-none rounded-md py-2 md:py-3 font-medium text-xs md:text-sm"
+            >
+              Security
+            </TabsTrigger>
+          </TabsList>
+        </div>
         <TabsContent value="profile" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Profile Settings</CardTitle>
-              <CardDescription>Manage your profile information</CardDescription>
+          <Card className="border-none shadow-sm bg-white">
+            <CardHeader className="bg-gradient-to-b from-slate-50 to-white pb-4 p-4 md:p-6">
+              <CardTitle className="text-base md:text-xl font-bold text-primary">Profile Settings</CardTitle>
+              <CardDescription className="text-xs md:text-sm text-gray-800 font-medium">Manage your profile information</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 md:p-6">
               <ProfileSettings />
             </CardContent>
           </Card>
         </TabsContent>
         <TabsContent value="team" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Team Settings</CardTitle>
-              <CardDescription>Manage team preferences and access</CardDescription>
+          <Card className="border-none shadow-sm bg-white">
+            <CardHeader className="bg-gradient-to-b from-slate-50 to-white pb-4 p-4 md:p-6">
+              <CardTitle className="text-base md:text-xl font-bold text-primary">Team Settings</CardTitle>
+              <CardDescription className="text-xs md:text-sm text-gray-800 font-medium">Manage team preferences and access</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 md:p-6">
               <TeamSettings />
             </CardContent>
           </Card>
         </TabsContent>
         <TabsContent value="notifications" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Notification Settings</CardTitle>
-              <CardDescription>Manage your notification preferences</CardDescription>
+          <Card className="border-none shadow-sm bg-white">
+            <CardHeader className="bg-gradient-to-b from-slate-50 to-white pb-4 p-4 md:p-6">
+              <CardTitle className="text-base md:text-xl font-bold text-primary">Notification Settings</CardTitle>
+              <CardDescription className="text-xs md:text-sm text-gray-800 font-medium">Manage your notification preferences</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 md:p-6">
               <NotificationSettings />
             </CardContent>
           </Card>
         </TabsContent>
         <TabsContent value="security" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Security Settings</CardTitle>
-              <CardDescription>Manage your security preferences</CardDescription>
+          <Card className="border-none shadow-sm bg-white">
+            <CardHeader className="bg-gradient-to-b from-slate-50 to-white pb-4 p-4 md:p-6">
+              <CardTitle className="text-base md:text-xl font-bold text-primary">Security Settings</CardTitle>
+              <CardDescription className="text-xs md:text-sm text-gray-800 font-medium">Manage your security preferences</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 md:p-6">
               <SecuritySettings />
             </CardContent>
           </Card>

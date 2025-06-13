@@ -52,6 +52,24 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Enhanced Design System Variables */
+    --surface-primary: 0 0% 100%;
+    --surface-secondary: 240 4.8% 97.9%;
+    --surface-elevated: 0 0% 100%;
+    --surface-interactive: 240 4.8% 95.9%;
+
+    --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-soft: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-glow: 0 0 20px rgb(59 130 246 / 0.15);
+
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --gradient-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-surface: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
   }
 
   .dark {
@@ -101,6 +119,24 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Enhanced Design System Variables - Dark Mode */
+    --surface-primary: 240 10% 3.9%;
+    --surface-secondary: 240 6% 8%;
+    --surface-elevated: 240 7% 12%;
+    --surface-interactive: 240 5% 15%;
+
+    --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-soft: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+    --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+    --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    --shadow-glow: 0 0 20px rgb(59 130 246 / 0.3);
+
+    --gradient-primary: linear-gradient(135deg, #4c63d2 0%, #5a4a9e 100%);
+    --gradient-secondary: linear-gradient(135deg, #d675e8 0%, #d1455a 100%);
+    --gradient-success: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+    --gradient-background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    --gradient-surface: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
   }
 }
 
@@ -108,6 +144,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -179,5 +216,231 @@
   /* Card description enhancement */
   .card-description {
     @apply text-secondary font-medium;
+  }
+}
+
+/* Mobile responsive utilities */
+@layer utilities {
+
+  /* Touch targets - minimum 44px for mobile */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Text truncation utilities */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /* Mobile table scrolling */
+  .table-mobile-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Mobile table min width to prevent cramping */
+  .table-mobile table {
+    min-width: 600px;
+  }
+
+  /* Mobile card stacking */
+  .mobile-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-stack {
+      flex-direction: row;
+      gap: 1rem;
+    }
+  }
+
+  /* Mobile-friendly buttons */
+  .btn-mobile {
+    min-height: 44px;
+    padding: 0 1rem;
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 768px) {
+    .btn-mobile {
+      min-height: 40px;
+      padding: 0 1.5rem;
+      font-size: 1rem;
+    }
+  }
+
+  /* Sticky mobile action bars */
+  .mobile-action-bar {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border-top: 1px solid rgb(226 232 240);
+    padding: 0.75rem;
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (min-width: 768px) {
+    .mobile-action-bar {
+      position: static;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
+    }
+  }
+
+  /* Enhanced mobile touch targets */
+  .mobile-touch-target {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 0.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-touch-target {
+      min-height: 40px;
+      min-width: 40px;
+      padding: 0.5rem;
+    }
+  }
+
+  /* Enhanced Design System Utilities */
+  /* Surface Background Utilities */
+  .surface-primary {
+    background: hsl(var(--surface-primary));
+  }
+
+  .surface-secondary {
+    background: hsl(var(--surface-secondary));
+  }
+
+  .surface-elevated {
+    background: hsl(var(--surface-elevated));
+  }
+
+  .surface-interactive {
+    background: hsl(var(--surface-interactive));
+  }
+
+  /* Shadow Utilities */
+  .shadow-subtle {
+    box-shadow: var(--shadow-subtle);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-medium {
+    box-shadow: var(--shadow-medium);
+  }
+
+  .shadow-large {
+    box-shadow: var(--shadow-large);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Gradient Background Utilities */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-secondary {
+    background: var(--gradient-secondary);
+  }
+
+  .gradient-success {
+    background: var(--gradient-success);
+  }
+
+  .gradient-background {
+    background: var(--gradient-background);
+  }
+
+  .gradient-surface {
+    background: var(--gradient-surface);
+  }
+
+  /* Enhanced Interactive States */
+  .interactive-card {
+    @apply transition-all duration-300 ease-out hover:shadow-medium hover:-translate-y-1 cursor-pointer;
+  }
+
+  .interactive-button {
+    @apply transition-all duration-300 ease-out hover:shadow-soft hover:-translate-y-0.5 active:translate-y-0 active:shadow-subtle;
+  }
+
+  .interactive-icon {
+    @apply transition-all duration-200 ease-out hover:scale-110 hover:rotate-3;
+  }
+
+  /* Glass Effect */
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-lg border border-white/20;
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-sm border border-white/60;
+  }
+
+  /* Text Gradient Utilities */
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-secondary {
+    @apply bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-success {
+    @apply bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent;
+  }
+
+  /* Enhanced Mobile Responsive Utilities */
+  .mobile-card-padding {
+    @apply p-3 sm:p-4 md:p-6;
+  }
+
+  .mobile-text-responsive {
+    @apply text-xs sm:text-sm md:text-base;
+  }
+
+  .mobile-title-responsive {
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl;
+  }
+
+  /* Hover Lift Animation */
+  .hover-lift {
+    @apply transition-transform duration-200 ease-out hover:-translate-y-1;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-200 ease-out hover:scale-105;
   }
 }

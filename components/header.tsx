@@ -68,38 +68,53 @@ export function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center border-b border-slate-200/60 gradient-header px-4 sm:px-6">
+    <header className="sticky top-0 z-30 flex h-14 md:h-16 items-center border-b border-slate-200/60 bg-gradient-to-r from-white via-blue-50/30 to-blue-100/20 backdrop-blur-sm px-3 sm:px-4 md:px-6 shadow-[var(--shadow-subtle)]"
+      style={{
+        backgroundImage: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(241,245,249,0.8) 50%, rgba(243,244,246,0.9) 100%)'
+      }}>
       <TooltipProvider>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={toggleSidebar}
-                className="mr-2 transition-all duration-200 ease-in-out hover:bg-slate-100/80 hover:scale-105"
+                className="lg:hidden mr-1 md:mr-2 transition-all duration-200 ease-in-out hover:bg-slate-100/80 hover:scale-105 h-9 w-9 md:h-10 md:w-10"
               >
-                <PanelLeft className={`h-5 w-5 transition-transform duration-300 ${sidebarOpen ? "" : "rotate-180"}`} />
+                <PanelLeft className={`h-4 w-4 md:h-5 md:w-5 transition-transform duration-300 ${sidebarOpen ? "" : "rotate-180"}`} />
                 <span className="sr-only">{sidebarOpen ? "Close sidebar" : "Open sidebar"}</span>
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right">{sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}</TooltipContent>
           </Tooltip>
+
+          {/* Brand logo/text for mobile */}
+          <div className="lg:hidden flex items-center gap-3">
+            <img
+              src="/st-louis-blues.svg"
+              alt="Blues Logo"
+              className="h-6 w-6 object-contain"
+            />
+            <h1 className="text-sm md:text-base font-bold bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 bg-clip-text text-transparent">
+              BluesOps
+            </h1>
+          </div>
         </div>
 
         {/* Quick action buttons */}
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-1 md:gap-2">
           {showSearch ? (
-            <div className="relative w-64">
+            <div className="relative w-48 md:w-64">
               <Input
                 placeholder="Search..."
-                className="pr-8 border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-300 focus:ring-blue-200"
+                className="pr-8 border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-300 focus:ring-blue-200 text-sm h-8 md:h-9"
                 autoFocus
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 onBlur={() => setShowSearch(false)}
               />
-              <SearchIcon className="absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <SearchIcon className="absolute right-2 top-1/2 h-3 w-3 md:h-4 md:w-4 -translate-y-1/2 text-slate-400" />
             </div>
           ) : (
             <Tooltip>
@@ -108,9 +123,9 @@ export function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
                   variant="ghost"
                   size="icon"
                   onClick={() => setShowSearch(true)}
-                  className="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 hover:scale-105 transition-all duration-200"
+                  className="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 hover:scale-105 transition-all duration-200 h-8 w-8 md:h-9 md:w-9"
                 >
-                  <SearchIcon className="h-5 w-5" />
+                  <SearchIcon className="h-4 w-4 md:h-5 md:w-5" />
                   <span className="sr-only">Search</span>
                 </Button>
               </TooltipTrigger>
@@ -118,67 +133,70 @@ export function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
             </Tooltip>
           )}
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 hover:scale-105 transition-all duration-200"
-              >
-                <Calendar className="h-5 w-5" />
-                <span className="sr-only">Calendar</span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Calendar</TooltipContent>
-          </Tooltip>
+          {/* Hide these buttons on mobile to save space */}
+          <div className="hidden sm:flex items-center gap-1 md:gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 hover:scale-105 transition-all duration-200 h-8 w-8 md:h-9 md:w-9"
+                >
+                  <Calendar className="h-4 w-4 md:h-5 md:w-5" />
+                  <span className="sr-only">Calendar</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Calendar</TooltipContent>
+            </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 hover:scale-105 transition-all duration-200"
-              >
-                <Users className="h-5 w-5" />
-                <span className="sr-only">Team</span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Team</TooltipContent>
-          </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 hover:scale-105 transition-all duration-200 h-8 w-8 md:h-9 md:w-9"
+                >
+                  <Users className="h-4 w-4 md:h-5 md:w-5" />
+                  <span className="sr-only">Team</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Team</TooltipContent>
+            </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-slate-600 hover:text-slate-900 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:scale-105 transition-all duration-200"
-              >
-                <Plus className="h-5 w-5" />
-                <span className="sr-only">Create</span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Create New</TooltipContent>
-          </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-slate-600 hover:text-slate-900 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:scale-105 transition-all duration-200 h-8 w-8 md:h-9 md:w-9"
+                >
+                  <Plus className="h-4 w-4 md:h-5 md:w-5" />
+                  <span className="sr-only">Create</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Create New</TooltipContent>
+            </Tooltip>
+          </div>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                className="relative text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 hover:scale-105 transition-all duration-200"
+                className="relative text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 hover:scale-105 transition-all duration-200 h-8 w-8 md:h-9 md:w-9"
               >
-                <Bell className="h-5 w-5" />
+                <Bell className="h-4 w-4 md:h-5 md:w-5" />
                 {notificationCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-[10px] font-medium text-white shadow-sm animate-pulse-glow">
+                  <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 md:h-5 md:w-5 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-[9px] md:text-[10px] font-medium text-white shadow-sm animate-pulse-glow">
                     {notificationCount}
                   </span>
                 )}
                 <span className="sr-only">Notifications</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-80 shadow-soft border-slate-200/60">
-              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-slate-50 to-blue-50/50">
-                <h3 className="font-semibold text-slate-900">Notifications</h3>
+            <DropdownMenuContent align="end" className="w-72 md:w-80 shadow-soft border-slate-200/60">
+              <div className="flex items-center justify-between p-3 md:p-4 bg-gradient-to-r from-slate-50 to-blue-50/50">
+                <h3 className="font-semibold text-slate-900 text-sm md:text-base">Notifications</h3>
                 {notificationCount > 0 && (
                   <Button
                     variant="ghost"
@@ -192,29 +210,27 @@ export function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
                 )}
               </div>
               <DropdownMenuSeparator />
-              <div className="max-h-[300px] overflow-y-auto">
+              <div className="max-h-[250px] md:max-h-[300px] overflow-y-auto">
                 {notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`flex cursor-pointer items-start gap-4 p-4 transition-all duration-200 hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50 ${
-                      notification.unread
-                        ? "bg-gradient-to-r from-blue-50/50 to-indigo-50/30 border-l-2 border-blue-400"
-                        : ""
-                    }`}
+                    className={`flex cursor-pointer items-start gap-3 md:gap-4 p-3 md:p-4 transition-all duration-200 hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50 ${notification.unread
+                      ? "bg-gradient-to-r from-blue-50/50 to-indigo-50/30 border-l-2 border-blue-400"
+                      : ""
+                      }`}
                   >
                     <div
-                      className={`mt-1 h-2 w-2 rounded-full transition-all duration-200 ${
-                        notification.unread ? "bg-blue-500 shadow-sm" : "bg-transparent"
-                      }`}
+                      className={`mt-1 h-2 w-2 rounded-full transition-all duration-200 ${notification.unread ? "bg-blue-500 shadow-sm" : "bg-transparent"
+                        }`}
                     />
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between">
-                        <p className="font-medium text-slate-900">{notification.title}</p>
-                        <span className="text-xs text-slate-500">{notification.time}</span>
+                        <p className="font-medium text-slate-900 text-sm truncate">{notification.title}</p>
+                        <span className="text-xs text-slate-500 ml-2 flex-shrink-0">{notification.time}</span>
                       </div>
-                      <p className="mt-1 text-sm text-slate-600">{notification.description}</p>
+                      <p className="mt-1 text-xs md:text-sm text-slate-600 line-clamp-2">{notification.description}</p>
                     </div>
-                    <ChevronRight className="h-4 w-4 text-slate-400" />
+                    <ChevronRight className="h-3 w-3 md:h-4 md:w-4 text-slate-400 flex-shrink-0" />
                   </div>
                 ))}
               </div>
@@ -231,27 +247,29 @@ export function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <div className="mx-2 h-6 w-px bg-slate-300/60" />
+          <div className="hidden sm:block mx-1 md:mx-2 h-4 md:h-6 w-px bg-slate-300/60" />
 
-          <ModeToggle />
+          <div className="hidden sm:block">
+            <ModeToggle />
+          </div>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                className="ml-1 rounded-full hover:scale-105 transition-all duration-200"
+                className="ml-0 sm:ml-1 rounded-full hover:scale-105 transition-all duration-200 h-8 w-8 md:h-9 md:w-9"
               >
-                <Avatar className="h-8 w-8 ring-2 ring-blue-500/20 ring-offset-2 hover:ring-blue-500/40 transition-all duration-200">
+                <Avatar className="h-6 w-6 md:h-8 md:w-8 ring-2 ring-blue-500/20 ring-offset-1 md:ring-offset-2 hover:ring-blue-500/40 transition-all duration-200">
                   <AvatarImage src="/placeholder.svg?height=32&width=32" alt="John Doe" />
-                  <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold">
+                  <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold text-xs md:text-sm">
                     JD
                   </AvatarFallback>
                 </Avatar>
                 <span className="sr-only">User menu</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 shadow-soft border-slate-200/60">
+            <DropdownMenuContent align="end" className="w-52 md:w-56 shadow-soft border-slate-200/60">
               <div className="flex flex-col space-y-1 p-3 bg-gradient-to-r from-slate-50 to-blue-50/50">
                 <p className="text-sm font-semibold leading-none text-slate-900">John Doe</p>
                 <p className="text-xs font-normal leading-none text-slate-600">Head Scout</p>
@@ -266,6 +284,29 @@ export function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
               <DropdownMenuItem className="hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50">
                 Settings
               </DropdownMenuItem>
+              {/* Mobile-only items */}
+              <div className="sm:hidden">
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50">
+                  <Calendar className="mr-2 h-4 w-4" />
+                  Calendar
+                </DropdownMenuItem>
+                <DropdownMenuItem className="hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50">
+                  <Users className="mr-2 h-4 w-4" />
+                  Team
+                </DropdownMenuItem>
+                <DropdownMenuItem className="hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Create New
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50">
+                  <div className="flex items-center justify-between w-full">
+                    <span>Theme</span>
+                    <ModeToggle />
+                  </div>
+                </DropdownMenuItem>
+              </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="text-red-600 hover:text-red-700 hover:bg-red-50">Sign out</DropdownMenuItem>
             </DropdownMenuContent>
