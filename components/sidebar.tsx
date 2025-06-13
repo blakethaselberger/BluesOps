@@ -2,54 +2,109 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { BarChart3, FileText, Home, Settings, Users, Video, FileSpreadsheet, Activity } from "lucide-react"
+import {
+  BarChart3,
+  FileText,
+  Home,
+  Settings,
+  Users,
+  Video,
+  FileSpreadsheet,
+  Activity,
+  ChevronDown,
+  ChevronRight,
+  Shield,
+  Wrench,
+  Calculator,
+  Target,
+  LineChart,
+  MessageSquare,
+  Lightbulb,
+  Layers
+} from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { useState, useEffect } from "react"
 
-const navItems = [
+const navGroups = [
   {
-    title: "Dashboard",
-    href: "/",
-    icon: Home,
+    title: "Core",
+    items: [
+      {
+        title: "Dashboard",
+        href: "/",
+        icon: Home,
+      },
+      {
+        title: "Player Database",
+        href: "/players",
+        icon: Users,
+      },
+      {
+        title: "Reports",
+        href: "/scouting",
+        icon: FileText,
+      },
+      {
+        title: "Analytics Hub",
+        href: "/analytics",
+        icon: BarChart3,
+      },
+      {
+        title: "Video Analysis",
+        href: "/video",
+        icon: Video,
+      },
+    ]
   },
   {
-    title: "Player Database",
-    href: "/players",
-    icon: Users,
+    title: "Operations",
+    items: [
+      {
+        title: "Team Management",
+        href: "/team-management",
+        icon: Shield,
+      },
+      {
+        title: "Player Tracking",
+        href: "/tracking",
+        icon: Activity,
+      },
+      {
+        title: "Meeting Notes",
+        href: "/notes",
+        icon: FileText,
+      },
+    ]
   },
   {
-    title: "Reports",
-    href: "/scouting",
-    icon: FileText,
+    title: "Tools & Simulations",
+    items: [
+      {
+        title: "Tools",
+        href: "/tools",
+        icon: Wrench,
+      },
+      {
+        title: "Feature Requests",
+        href: "/feature-requests",
+        icon: Lightbulb,
+      },
+    ]
   },
   {
-    title: "Analytics Hub",
-    href: "/analytics",
-    icon: BarChart3,
-  },
-  {
-    title: "Video Analysis",
-    href: "/video",
-    icon: Video,
-  },
-  {
-    title: "Player Tracking",
-    href: "/tracking",
-    icon: Activity,
-  },
-  {
-    title: "Meeting Notes",
-    href: "/notes",
-    icon: FileText,
-  },
-  {
-    title: "Settings",
-    href: "/settings",
-    icon: Settings,
-  },
+    title: "System",
+    items: [
+      {
+        title: "Settings",
+        href: "/settings",
+        icon: Settings,
+      },
+    ]
+  }
 ]
 
 interface SidebarProps {
@@ -61,10 +116,19 @@ interface SidebarProps {
 export function Sidebar({ isOpen = true, className, isCollapsed = false }: SidebarProps) {
   const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
+  const [expandedGroups, setExpandedGroups] = useState<string[]>(['Core', 'Operations'])
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  const toggleGroup = (groupTitle: string) => {
+    setExpandedGroups(prev =>
+      prev.includes(groupTitle)
+        ? prev.filter(g => g !== groupTitle)
+        : [...prev, groupTitle]
+    )
+  }
 
   return (
     <div
@@ -112,58 +176,115 @@ export function Sidebar({ isOpen = true, className, isCollapsed = false }: Sideb
       <ScrollArea className="flex-1 py-4">
         <TooltipProvider>
           <div className={cn(
-            "flex flex-col gap-1 transition-all duration-300",
+            "flex flex-col gap-2 transition-all duration-300",
             isCollapsed ? "px-2" : "px-3"
           )}>
-            {navItems.map((item) => (
-              <Tooltip key={item.href} delayDuration={isCollapsed ? 300 : 1000}>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant={pathname === item.href ? "secondary" : "ghost"}
-                    className={cn(
-                      "transition-all duration-200 text-left relative group/item",
-                      isCollapsed
-                        ? "h-12 w-12 p-0 justify-center"
-                        : "justify-start gap-3 h-11 px-3",
-                      pathname === item.href && [
-                        "bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border border-blue-200/50 shadow-sm",
-                        "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-gradient-to-b before:from-blue-500 before:to-blue-600 before:rounded-r-full"
-                      ],
-                      pathname !== item.href && [
-                        "hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50 hover:text-slate-900 hover:shadow-sm",
-                        "hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:bottom-0 hover:before:w-0.5 hover:before:bg-blue-300 hover:before:rounded-r-full hover:before:transition-all hover:before:duration-200"
-                      ]
-                    )}
-                    asChild
+            {navGroups.map((group) => (
+              <div key={group.title} className="space-y-1">
+                {!isCollapsed && (
+                  <Collapsible
+                    open={expandedGroups.includes(group.title)}
+                    onOpenChange={() => toggleGroup(group.title)}
                   >
-                    <Link href={item.href}>
-                      <item.icon
-                        className={cn(
-                          "transition-all duration-200 flex-shrink-0",
-                          isCollapsed ? "h-5 w-5" : "h-4 w-4",
-                          pathname === item.href ? "text-blue-600" : "text-slate-600 group-hover/item:text-slate-700",
+                    <CollapsibleTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-between h-8 px-2 text-xs font-semibold text-slate-500 hover:text-slate-700 hover:bg-slate-50/50"
+                      >
+                        <span className="truncate">{group.title}</span>
+                        {expandedGroups.includes(group.title) ? (
+                          <ChevronDown className="h-3 w-3" />
+                        ) : (
+                          <ChevronRight className="h-3 w-3" />
                         )}
-                      />
-                      <span className={cn(
-                        "font-medium text-sm truncate transition-all duration-300",
-                        isCollapsed && "lg:opacity-0 lg:w-0 lg:overflow-hidden"
-                      )}>
-                        {item.title}
-                      </span>
-                    </Link>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent
-                  side="right"
-                  className={cn(
-                    "transition-all duration-200",
-                    !isCollapsed && "lg:hidden"
-                  )}
-                  sideOffset={10}
-                >
-                  <span className="font-medium">{item.title}</span>
-                </TooltipContent>
-              </Tooltip>
+                      </Button>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="space-y-1">
+                      {group.items.map((item) => (
+                        <Tooltip key={item.href} delayDuration={isCollapsed ? 300 : 1000}>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={pathname === item.href ? "secondary" : "ghost"}
+                              className={cn(
+                                "transition-all duration-200 text-left relative group/item w-full",
+                                "justify-start gap-3 h-10 px-3 ml-2",
+                                pathname === item.href && [
+                                  "bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border border-blue-200/50 shadow-sm",
+                                  "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-gradient-to-b before:from-blue-500 before:to-blue-600 before:rounded-r-full"
+                                ],
+                                pathname !== item.href && [
+                                  "hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50 hover:text-slate-900 hover:shadow-sm",
+                                  "hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:bottom-0 hover:before:w-0.5 hover:before:bg-blue-300 hover:before:rounded-r-full hover:before:transition-all hover:before:duration-200"
+                                ]
+                              )}
+                              asChild
+                            >
+                              <Link href={item.href}>
+                                <item.icon
+                                  className={cn(
+                                    "transition-all duration-200 flex-shrink-0 h-4 w-4",
+                                    pathname === item.href ? "text-blue-600" : "text-slate-600 group-hover/item:text-slate-700",
+                                  )}
+                                />
+                                <span className="font-medium text-sm truncate">
+                                  {item.title}
+                                </span>
+                              </Link>
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent
+                            side="right"
+                            className="transition-all duration-200"
+                            sideOffset={10}
+                          >
+                            <span className="font-medium">{item.title}</span>
+                          </TooltipContent>
+                        </Tooltip>
+                      ))}
+                    </CollapsibleContent>
+                  </Collapsible>
+                )}
+
+                {/* Collapsed view - show all items as icons */}
+                {isCollapsed && group.items.map((item) => (
+                  <Tooltip key={item.href} delayDuration={300}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant={pathname === item.href ? "secondary" : "ghost"}
+                        className={cn(
+                          "transition-all duration-200 text-left relative group/item",
+                          "h-12 w-12 p-0 justify-center",
+                          pathname === item.href && [
+                            "bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border border-blue-200/50 shadow-sm",
+                            "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-gradient-to-b before:from-blue-500 before:to-blue-600 before:rounded-r-full"
+                          ],
+                          pathname !== item.href && [
+                            "hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50 hover:text-slate-900 hover:shadow-sm",
+                            "hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:bottom-0 hover:before:w-0.5 hover:before:bg-blue-300 hover:before:rounded-r-full hover:before:transition-all hover:before:duration-200"
+                          ]
+                        )}
+                        asChild
+                      >
+                        <Link href={item.href}>
+                          <item.icon
+                            className={cn(
+                              "transition-all duration-200 flex-shrink-0 h-5 w-5",
+                              pathname === item.href ? "text-blue-600" : "text-slate-600 group-hover/item:text-slate-700",
+                            )}
+                          />
+                        </Link>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="right"
+                      className="transition-all duration-200"
+                      sideOffset={10}
+                    >
+                      <span className="font-medium">{item.title}</span>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </div>
             ))}
           </div>
         </TooltipProvider>

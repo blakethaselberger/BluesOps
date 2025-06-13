@@ -19,13 +19,43 @@ export default function PlayersPage() {
 
   // Advanced filter states
   const [filters, setFilters] = useState({
+    // Player Attributes
     position: "all",
+    status: "all",
+    shoots: "all",
+    nationality: "all",
+    league: "all",
+    team: "",
+    // Age & Physical
     ageMin: "",
     ageMax: "",
-    status: "all",
+    heightMin: "",
+    heightMax: "",
+    weightMin: "",
+    weightMax: "",
+    // Draft & Contract
+    draftYear: "",
+    draftRound: "all",
+    contractStatus: "all",
+    contractExpiryMin: "",
+    contractExpiryMax: "",
+    salaryMin: "",
+    salaryMax: "",
+    // Performance
+    gamesPlayedMin: "",
+    gamesPlayedMax: "",
+    goalsMin: "",
+    goalsMax: "",
+    assistsMin: "",
+    assistsMax: "",
+    pointsMin: "",
+    pointsMax: "",
+    // Advanced
     rating: "all",
-    shoots: "all",
-    team: "",
+    playerStyle: "all",
+    yearsInLeagueMin: "",
+    yearsInLeagueMax: "",
+    draftEligible: "all",
   })
 
   // Group players by league
@@ -39,13 +69,43 @@ export default function PlayersPage() {
 
   const resetFilters = () => {
     setFilters({
+      // Player Attributes
       position: "all",
+      status: "all",
+      shoots: "all",
+      nationality: "all",
+      league: "all",
+      team: "",
+      // Age & Physical
       ageMin: "",
       ageMax: "",
-      status: "all",
+      heightMin: "",
+      heightMax: "",
+      weightMin: "",
+      weightMax: "",
+      // Draft & Contract
+      draftYear: "",
+      draftRound: "all",
+      contractStatus: "all",
+      contractExpiryMin: "",
+      contractExpiryMax: "",
+      salaryMin: "",
+      salaryMax: "",
+      // Performance
+      gamesPlayedMin: "",
+      gamesPlayedMax: "",
+      goalsMin: "",
+      goalsMax: "",
+      assistsMin: "",
+      assistsMax: "",
+      pointsMin: "",
+      pointsMax: "",
+      // Advanced
       rating: "all",
-      shoots: "all",
-      team: "",
+      playerStyle: "all",
+      yearsInLeagueMin: "",
+      yearsInLeagueMax: "",
+      draftEligible: "all",
     })
     setSearchTerm("")
   }
@@ -56,18 +116,62 @@ export default function PlayersPage() {
       const matchesSearch = searchTerm === "" ||
         player.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         player.team.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        player.birthplace.toLowerCase().includes(searchTerm.toLowerCase())
+        player.birthplace.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        player.nationality.toLowerCase().includes(searchTerm.toLowerCase())
 
-      // Advanced filters
+      // Player Attributes
       const matchesPosition = filters.position === "all" || player.position === filters.position
-      const matchesAge = (!filters.ageMin || player.age >= parseInt(filters.ageMin)) &&
-        (!filters.ageMax || player.age <= parseInt(filters.ageMax))
       const matchesStatus = filters.status === "all" || player.status === filters.status
-      const matchesRating = filters.rating === "all" || player.rating === filters.rating
       const matchesShoots = filters.shoots === "all" || player.shoots === filters.shoots
+      const matchesNationality = filters.nationality === "all" || player.nationality === filters.nationality
+      const matchesLeague = filters.league === "all" || player.league === filters.league
       const matchesTeam = !filters.team || player.team.toLowerCase().includes(filters.team.toLowerCase())
 
-      return matchesSearch && matchesPosition && matchesAge && matchesStatus && matchesRating && matchesShoots && matchesTeam
+      // Age & Physical
+      const matchesAge = (!filters.ageMin || player.age >= parseInt(filters.ageMin)) &&
+        (!filters.ageMax || player.age <= parseInt(filters.ageMax))
+      const matchesHeight = (!filters.heightMin || player.heightCm >= parseInt(filters.heightMin)) &&
+        (!filters.heightMax || player.heightCm <= parseInt(filters.heightMax))
+      const matchesWeight = (!filters.weightMin || player.weightLbs >= parseInt(filters.weightMin)) &&
+        (!filters.weightMax || player.weightLbs <= parseInt(filters.weightMax))
+
+      // Draft & Contract
+      const matchesDraftYear = !filters.draftYear ||
+        (player.draftYear && player.draftYear.toString() === filters.draftYear)
+      const matchesDraftRound = filters.draftRound === "all" ||
+        (filters.draftRound === "undrafted" && !player.draftRound) ||
+        (player.draftRound && player.draftRound.toString() === filters.draftRound)
+      const matchesContractStatus = filters.contractStatus === "all" || player.contract === filters.contractStatus
+      const matchesContractExpiry = (!filters.contractExpiryMin || player.contractExpiry >= parseInt(filters.contractExpiryMin)) &&
+        (!filters.contractExpiryMax || player.contractExpiry <= parseInt(filters.contractExpiryMax))
+      const matchesSalary = (!filters.salaryMin || player.salaryValue >= parseFloat(filters.salaryMin)) &&
+        (!filters.salaryMax || player.salaryValue <= parseFloat(filters.salaryMax))
+
+      // Performance
+      const matchesGamesPlayed = (!filters.gamesPlayedMin || player.gamesPlayed >= parseInt(filters.gamesPlayedMin)) &&
+        (!filters.gamesPlayedMax || player.gamesPlayed <= parseInt(filters.gamesPlayedMax))
+      const matchesGoals = (!filters.goalsMin || player.goals >= parseInt(filters.goalsMin)) &&
+        (!filters.goalsMax || player.goals <= parseInt(filters.goalsMax))
+      const matchesAssists = (!filters.assistsMin || player.assists >= parseInt(filters.assistsMin)) &&
+        (!filters.assistsMax || player.assists <= parseInt(filters.assistsMax))
+      const matchesPoints = (!filters.pointsMin || player.points >= parseInt(filters.pointsMin)) &&
+        (!filters.pointsMax || player.points <= parseInt(filters.pointsMax))
+
+      // Advanced
+      const matchesRating = filters.rating === "all" || player.rating === filters.rating
+      const matchesPlayerStyle = filters.playerStyle === "all" || player.playerStyle === filters.playerStyle
+      const matchesYearsInLeague = (!filters.yearsInLeagueMin || player.yearsInLeague >= parseInt(filters.yearsInLeagueMin)) &&
+        (!filters.yearsInLeagueMax || player.yearsInLeague <= parseInt(filters.yearsInLeagueMax))
+      const matchesDraftEligible = filters.draftEligible === "all" ||
+        (filters.draftEligible === "true" && player.draftEligible) ||
+        (filters.draftEligible === "false" && !player.draftEligible)
+
+      return matchesSearch &&
+        matchesPosition && matchesStatus && matchesShoots && matchesNationality && matchesLeague && matchesTeam &&
+        matchesAge && matchesHeight && matchesWeight &&
+        matchesDraftYear && matchesDraftRound && matchesContractStatus && matchesContractExpiry && matchesSalary &&
+        matchesGamesPlayed && matchesGoals && matchesAssists && matchesPoints &&
+        matchesRating && matchesPlayerStyle && matchesYearsInLeague && matchesDraftEligible
     })
   }
 
