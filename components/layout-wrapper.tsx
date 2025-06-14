@@ -11,7 +11,7 @@ const ClientSidebar = dynamic(() => import("@/components/client-sidebar").then((
 
 const ClientHeader = dynamic(() => import("@/components/client-header").then((mod) => mod.ClientHeader))
 
-const AIChatbot = dynamic(() => import("@/components/ai-assistant/ai-chatbot").then((mod) => mod.AIChatbot))
+const AIChatbotEnhanced = dynamic(() => import("@/components/ai-assistant/ai-chatbot-enhanced").then((mod) => mod.AIChatbotEnhanced))
 
 interface LayoutWrapperProps {
     children: React.ReactNode
@@ -98,7 +98,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
             </div>
 
             {/* AI Chatbot - Available on all pages */}
-            <AIChatbot />
+            <AIChatbotEnhanced />
         </div>
     )
 }

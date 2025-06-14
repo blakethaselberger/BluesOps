@@ -6,6 +6,7 @@ import { PlusCircle, FileText, Users, Target, BarChart3, Layers, Video } from "l
 import { AddReportDialog } from "@/components/reports/add-report-dialog"
 import { PageHeader } from "@/components/ui/page-header"
 import { PageLayout } from "@/components/ui/page-layout"
+import { ScrollableTabs } from "@/components/ui/scrollable-tabs"
 
 export default function ReportsPage() {
   return (
@@ -24,8 +25,65 @@ export default function ReportsPage() {
       />
 
       <Tabs defaultValue="all" className="space-y-4 md:space-y-6">
-        <div className="bg-white rounded-lg p-1 shadow-sm border overflow-hidden">
-          <TabsList className="w-full h-auto gap-1 bg-transparent grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8">
+        {/* Mobile Report Type Selector */}
+        <div className="md:hidden">
+          <ScrollableTabs showScrollButtons>
+            <TabsList className="bg-white border shadow-sm p-1 flex gap-1">
+              <TabsTrigger
+                value="all"
+                className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-sm rounded-md px-3 py-2 font-medium text-xs whitespace-nowrap"
+              >
+                All
+              </TabsTrigger>
+              <TabsTrigger
+                value="scouting"
+                className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-sm rounded-md px-3 py-2 font-medium text-xs whitespace-nowrap"
+              >
+                Scouting
+              </TabsTrigger>
+              <TabsTrigger
+                value="free-agent"
+                className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-sm rounded-md px-3 py-2 font-medium text-xs whitespace-nowrap"
+              >
+                Free Agent
+              </TabsTrigger>
+              <TabsTrigger
+                value="trade"
+                className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-sm rounded-md px-3 py-2 font-medium text-xs whitespace-nowrap"
+              >
+                Trade
+              </TabsTrigger>
+              <TabsTrigger
+                value="internal"
+                className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-sm rounded-md px-3 py-2 font-medium text-xs whitespace-nowrap"
+              >
+                Internal
+              </TabsTrigger>
+              <TabsTrigger
+                value="analytical"
+                className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-sm rounded-md px-3 py-2 font-medium text-xs whitespace-nowrap"
+              >
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger
+                value="organizational"
+                className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-sm rounded-md px-3 py-2 font-medium text-xs whitespace-nowrap"
+              >
+                Organizational
+              </TabsTrigger>
+              <TabsTrigger
+                value="game"
+                className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-sm rounded-md px-3 py-2 font-medium text-xs whitespace-nowrap"
+              >
+                Game
+              </TabsTrigger>
+            </TabsList>
+          </ScrollableTabs>
+        </div>
+
+        {/* Desktop Report Type Selector */}
+        <div className="hidden md:block bg-white rounded-lg p-1 shadow-sm border overflow-hidden">
+          <TabsList className="w-full h-auto gap-1 bg-transparent grid grid-cols-4 lg:grid-cols-8">
             <TabsTrigger
               value="all"
               className="tab-trigger data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-none rounded-md py-2 font-medium text-xs md:text-sm lg:col-span-1"

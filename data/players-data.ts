@@ -230,6 +230,19 @@ export const players: Player[] = [
     },
 ]
 
+export const getLeagueLogo = (league: string): string | null => {
+    const logos: Record<string, string> = {
+        "NHL": "/nhl.svg",
+        "OHL": "/ohl.jpg",
+        "WHL": "/whl.png",
+        "QMJHL": "/qmjhl.png",
+        "AHL": "/ahl.png",
+        "SHL": "/shl.png",
+        // Add more mappings as logos become available
+    }
+    return logos[league] || null
+}
+
 export const getLeagueIcon = (league: string): string => {
     const icons: Record<string, string> = {
         "NHL": "🏒",

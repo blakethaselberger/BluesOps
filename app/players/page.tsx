@@ -10,9 +10,11 @@ import { Plus, Search, List, Grid, TrendingUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { AdvancedPlayerFilters } from "@/components/players/player-filters"
 import { PlayerListResponsive } from "@/components/players/player-list-responsive"
-import { players, getLeagueIcon, type Player } from "@/data/players-data"
+import { players, getLeagueIcon, getLeagueLogo, type Player } from "@/data/players-data"
 import { PageHeader } from "@/components/ui/page-header"
 import { PageLayout, PageSection } from "@/components/ui/page-layout"
+import { ScrollableTabs } from "@/components/ui/scrollable-tabs"
+import Image from "next/image"
 
 export default function PlayersPage() {
   const [viewMode, setViewMode] = useState<"table" | "cards">("table")
@@ -239,16 +241,60 @@ export default function PlayersPage() {
       </PageSection>
 
       <Tabs defaultValue="NHL" className="space-y-4 md:space-y-6">
-        <div className="bg-white rounded-lg p-1 shadow-sm border overflow-hidden">
-          <TabsList className="w-full h-auto gap-1 bg-transparent grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8">
+        {/* Mobile League Selector */}
+        <div className="md:hidden">
+          <ScrollableTabs showScrollButtons>
+            <TabsList className="bg-white border shadow-sm p-1 flex gap-1">
+              {Object.keys(playersByLeague).map((league) => (
+                <TabsTrigger
+                  key={league}
+                  value={league}
+                  className="data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-sm rounded-md px-3 py-2 font-medium text-xs whitespace-nowrap flex items-center gap-2"
+                >
+                  {getLeagueLogo(league) ? (
+                    <div className="relative w-5 h-5 flex-shrink-0">
+                      <Image
+                        src={getLeagueLogo(league)!}
+                        alt={`${league} logo`}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <span className="text-sm">{getLeagueIcon(league)}</span>
+                  )}
+                  <span>{league}</span>
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-700 text-xs h-5 px-1.5">
+                    {filterPlayers(playersByLeague[league]).length}
+                  </Badge>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </ScrollableTabs>
+        </div>
+
+        {/* Desktop League Selector */}
+        <div className="hidden md:block bg-white rounded-lg p-1 shadow-sm border overflow-hidden">
+          <TabsList className="w-full h-auto gap-1 bg-transparent grid grid-cols-4 lg:grid-cols-8">
             {Object.keys(playersByLeague).map((league) => (
-              <TabsTrigger
+                <TabsTrigger
                 key={league}
                 value={league}
                 className="tab-trigger data-[state=active]:bg-blue-50 data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:shadow-none rounded-md py-2 font-medium text-xs md:text-sm lg:col-span-1"
               >
                 <span className="flex items-center gap-2">
-                  <span>{getLeagueIcon(league)}</span>
+                  {getLeagueLogo(league) ? (
+                    <div className="relative w-5 h-5 md:w-6 md:h-6 flex-shrink-0">
+                      <Image
+                        src={getLeagueLogo(league)!}
+                        alt={`${league} logo`}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <span>{getLeagueIcon(league)}</span>
+                  )}
                   <span className="font-medium">{league}</span>
                   <Badge variant="secondary" className="bg-blue-100 text-blue-700 text-xs">
                     {filterPlayers(playersByLeague[league]).length}
@@ -263,8 +309,19 @@ export default function PlayersPage() {
           <TabsContent key={league} value={league} className="mt-4 md:mt-6">
             <Card className="gradient-card shadow-soft border-slate-200/60 hover:shadow-glow transition-all duration-200">
               <CardHeader className="pb-4 bg-gradient-to-r from-slate-50 to-blue-50/50 border-b border-slate-200/60 p-4 md:p-6">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">{getLeagueIcon(league)}</span>
+                <div className="flex items-center gap-3">
+                  {getLeagueLogo(league) ? (
+                    <div className="relative w-8 h-8 md:w-10 md:h-10 flex-shrink-0">
+                      <Image
+                        src={getLeagueLogo(league)!}
+                        alt={`${league} logo`}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <span className="text-2xl">{getLeagueIcon(league)}</span>
+                  )}
                   <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
                   <CardTitle className="text-slate-900 text-base md:text-lg">{league} Players</CardTitle>
                 </div>

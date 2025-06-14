@@ -40,60 +40,62 @@ export default function NotesPage() {
           className="h-10 md:h-11"
         />
         <Tabs defaultValue="all" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 md:w-auto md:grid-cols-none md:flex gap-1">
-            <TabsTrigger value="all" className="text-xs md:text-sm px-2 md:px-4">
+        <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+          <TabsList className="w-max md:w-auto flex gap-1">
+            <TabsTrigger value="all" className="text-xs md:text-sm px-3 md:px-4 whitespace-nowrap">
               All Notes
             </TabsTrigger>
-            <TabsTrigger value="players" className="text-xs md:text-sm px-2 md:px-4">
+            <TabsTrigger value="players" className="text-xs md:text-sm px-3 md:px-4 whitespace-nowrap">
               Player Notes
             </TabsTrigger>
-            <TabsTrigger value="meetings" className="text-xs md:text-sm px-2 md:px-4">
+            <TabsTrigger value="meetings" className="text-xs md:text-sm px-3 md:px-4 whitespace-nowrap">
               Meeting Notes
             </TabsTrigger>
-            <TabsTrigger value="draft" className="text-xs md:text-sm px-2 md:px-4">
+            <TabsTrigger value="draft" className="text-xs md:text-sm px-3 md:px-4 whitespace-nowrap">
               Draft Prep
             </TabsTrigger>
           </TabsList>
+        </div>
           <TabsContent value="all" className="mt-4">
-            <Card>
-              <CardHeader className="pb-2 p-4 md:p-6">
+            <Card className="border-slate-200">
+              <CardHeader className="pb-3 md:pb-4 p-4 md:p-6 bg-gradient-to-r from-slate-50 to-blue-50/30">
                 <CardTitle className="text-base md:text-lg">All Notes</CardTitle>
                 <CardDescription className="text-xs md:text-sm">All notes across categories</CardDescription>
               </CardHeader>
-              <CardContent className="p-4 md:p-6">
+              <CardContent className="p-3 md:p-6">
                 <MeetingNotes searchQuery={searchQuery} />
               </CardContent>
             </Card>
           </TabsContent>
           <TabsContent value="players" className="mt-4">
-            <Card>
-              <CardHeader className="pb-2 p-4 md:p-6">
+            <Card className="border-slate-200">
+              <CardHeader className="pb-3 md:pb-4 p-4 md:p-6 bg-gradient-to-r from-slate-50 to-green-50/30">
                 <CardTitle className="text-base md:text-lg">Player Notes</CardTitle>
                 <CardDescription className="text-xs md:text-sm">Notes specific to players</CardDescription>
               </CardHeader>
-              <CardContent className="p-4 md:p-6">
+              <CardContent className="p-3 md:p-6">
                 <PlayerNotes searchQuery={searchQuery} />
               </CardContent>
             </Card>
           </TabsContent>
           <TabsContent value="meetings" className="mt-4">
-            <Card>
-              <CardHeader className="pb-2 p-4 md:p-6">
+            <Card className="border-slate-200">
+              <CardHeader className="pb-3 md:pb-4 p-4 md:p-6 bg-gradient-to-r from-slate-50 to-purple-50/30">
                 <CardTitle className="text-base md:text-lg">Meeting Notes</CardTitle>
                 <CardDescription className="text-xs md:text-sm">Notes from team meetings</CardDescription>
               </CardHeader>
-              <CardContent className="p-4 md:p-6">
+              <CardContent className="p-3 md:p-6">
                 <MeetingNotes searchQuery={searchQuery} category="meeting" />
               </CardContent>
             </Card>
           </TabsContent>
           <TabsContent value="draft" className="mt-4">
-            <Card>
-              <CardHeader className="pb-2 p-4 md:p-6">
+            <Card className="border-slate-200">
+              <CardHeader className="pb-3 md:pb-4 p-4 md:p-6 bg-gradient-to-r from-slate-50 to-orange-50/30">
                 <CardTitle className="text-base md:text-lg">Draft Preparation</CardTitle>
                 <CardDescription className="text-xs md:text-sm">Notes related to draft strategy</CardDescription>
               </CardHeader>
-              <CardContent className="p-4 md:p-6">
+              <CardContent className="p-3 md:p-6">
                 <DraftNotes searchQuery={searchQuery} />
               </CardContent>
             </Card>

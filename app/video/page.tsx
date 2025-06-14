@@ -37,6 +37,8 @@ import {
 import Link from "next/link"
 import { PageHeader } from "@/components/ui/page-header"
 import { PageLayout, PageSection } from "@/components/ui/page-layout"
+import { VideoFiltersSheet } from "@/components/video/video-filters-sheet"
+import { VideoCardMobile } from "@/components/video/video-card-mobile"
 
 interface VideoItem {
   id: string
@@ -166,6 +168,18 @@ export default function VideoAnalysisPage() {
     return matchesSearch && matchesLeague && matchesGameType && matchesTab
   })
 
+  const activeFiltersCount = [
+    searchQuery !== "",
+    selectedLeague !== "all",
+    selectedGameType !== "all"
+  ].filter(Boolean).length
+
+  const clearFilters = () => {
+    setSearchQuery("")
+    setSelectedLeague("all")
+    setSelectedGameType("all")
+  }
+
   return (
     <PageLayout>
       {/* Header */}
@@ -173,15 +187,16 @@ export default function VideoAnalysisPage() {
         title="Video Analysis"
         description="Professional video analysis and game footage library"
         action={
-          <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700">
+          <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-sm md:text-base">
             <Upload className="mr-2 h-4 w-4" />
-            Upload Video
+            <span className="hidden sm:inline">Upload Video</span>
+            <span className="sm:hidden">Upload</span>
           </Button>
         }
       />
 
-      {/* Filters & Search */}
-      <EnhancedCard>
+      {/* Filters & Search - Desktop */}
+      <EnhancedCard className="hidden md:block">
         <EnhancedCardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
             {/* Search */}
@@ -272,30 +287,75 @@ export default function VideoAnalysisPage() {
         </EnhancedCardContent>
       </EnhancedCard>
 
+      {/* Mobile Filters & Search */}
+      <div className="md:hidden space-y-3">
+        <div className="flex gap-2">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Input
+              placeholder="Search videos..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 h-9"
+            />
+          </div>
+          <VideoFiltersSheet
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            selectedLeague={selectedLeague}
+            setSelectedLeague={setSelectedLeague}
+            selectedGameType={selectedGameType}
+            setSelectedGameType={setSelectedGameType}
+            activeFiltersCount={activeFiltersCount}
+            onClearFilters={clearFilters}
+          />
+          <div className="flex gap-1 border border-slate-200 rounded-lg p-1">
+            <Button
+              variant={view === "grid" ? "default" : "ghost"}
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => setView("grid")}
+            >
+              <Grid3X3 className="h-3.5 w-3.5" />
+            </Button>
+            <Button
+              variant={view === "list" ? "default" : "ghost"}
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => setView("list")}
+            >
+              <List className="h-3.5 w-3.5" />
+            </Button>
+          </div>
+        </div>
+      </div>
+
       {/* Content Tabs */}
       <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-5 md:w-auto md:grid-cols-none md:flex gap-1">
-          <TabsTrigger value="all" className="text-xs md:text-sm px-2 md:px-4">
-            <Video className="mr-2 h-4 w-4" />
-            All Videos
-          </TabsTrigger>
-          <TabsTrigger value="bookmarked" className="text-xs md:text-sm px-2 md:px-4">
-            <Bookmark className="mr-2 h-4 w-4" />
-            Bookmarked
-          </TabsTrigger>
-          <TabsTrigger value="my-videos" className="text-xs md:text-sm px-2 md:px-4">
-            <Users className="mr-2 h-4 w-4" />
-            My Videos
-          </TabsTrigger>
-          <TabsTrigger value="shared" className="text-xs md:text-sm px-2 md:px-4">
-            <Share className="mr-2 h-4 w-4" />
-            Shared
-          </TabsTrigger>
-          <TabsTrigger value="recent" className="text-xs md:text-sm px-2 md:px-4">
-            <Clock className="mr-2 h-4 w-4" />
-            Recent
-          </TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+          <TabsList className="w-max md:w-auto flex gap-1">
+            <TabsTrigger value="all" className="text-xs md:text-sm px-3 md:px-4 whitespace-nowrap">
+              <Video className="mr-1.5 md:mr-2 h-3.5 w-3.5 md:h-4 md:w-4" />
+              All Videos
+            </TabsTrigger>
+            <TabsTrigger value="bookmarked" className="text-xs md:text-sm px-3 md:px-4 whitespace-nowrap">
+              <Bookmark className="mr-1.5 md:mr-2 h-3.5 w-3.5 md:h-4 md:w-4" />
+              Bookmarked
+            </TabsTrigger>
+            <TabsTrigger value="my-videos" className="text-xs md:text-sm px-3 md:px-4 whitespace-nowrap">
+              <Users className="mr-1.5 md:mr-2 h-3.5 w-3.5 md:h-4 md:w-4" />
+              My Videos
+            </TabsTrigger>
+            <TabsTrigger value="shared" className="text-xs md:text-sm px-3 md:px-4 whitespace-nowrap">
+              <Share className="mr-1.5 md:mr-2 h-3.5 w-3.5 md:h-4 md:w-4" />
+              Shared
+            </TabsTrigger>
+            <TabsTrigger value="recent" className="text-xs md:text-sm px-3 md:px-4 whitespace-nowrap">
+              <Clock className="mr-1.5 md:mr-2 h-3.5 w-3.5 md:h-4 md:w-4" />
+              Recent
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value={selectedTab} className="mt-6">
           <EnhancedCard variant="elevated">
@@ -329,85 +389,104 @@ export default function VideoAnalysisPage() {
                 </DropdownMenu>
               </div>
             </EnhancedCardHeader>
-            <EnhancedCardContent className="p-6">
-              {view === "grid" ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredVideos.map((video) => (
-                    <Link key={video.id} href={`/video/${video.id}`}>
-                      <div className="group cursor-pointer">
-                        <div className="relative overflow-hidden rounded-lg bg-slate-200 aspect-video mb-3 hover:shadow-lg transition-all duration-200">
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
-                          <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded z-20">
-                            {video.duration}
-                          </div>
-                          <div className="absolute top-2 left-2 z-20">
-                            <Badge
-                              className={`text-xs ${video.gameType === 'Analysis' ? 'bg-blue-500' :
-                                  video.gameType === 'Training' ? 'bg-green-500' :
-                                    video.gameType === 'Development' ? 'bg-purple-500' :
-                                      'bg-orange-500'
-                                }`}
-                            >
-                              {video.gameType}
-                            </Badge>
-                          </div>
-                          {video.isBookmarked && (
-                            <div className="absolute top-2 right-2 z-20">
-                              <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                            </div>
-                          )}
-                          <div className="absolute inset-0 flex items-center justify-center z-20">
-                            <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 group-hover:bg-white/30 transition-all duration-200">
-                              <Play className="h-6 w-6 text-white fill-current" />
-                            </div>
-                          </div>
-                          <div className="w-full h-full bg-gradient-to-br from-slate-300 to-slate-400" />
-                        </div>
+            <EnhancedCardContent className="p-3 md:p-6">
+              {/* Mobile View */}
+              <div className="md:hidden">
+                {view === "grid" ? (
+                  <div className="grid grid-cols-1 gap-4">
+                    {filteredVideos.map((video) => (
+                      <VideoCardMobile key={video.id} video={video} view="grid" />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {filteredVideos.map((video) => (
+                      <VideoCardMobile key={video.id} video={video} view="list" />
+                    ))}
+                  </div>
+                )}
+              </div>
 
-                        <div className="space-y-2">
-                          <h3 className="font-semibold text-slate-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                            {video.title}
-                          </h3>
-                          <div className="flex items-center gap-2 text-sm text-slate-600">
-                            <Calendar className="h-3 w-3" />
-                            {video.date}
-                          </div>
-                          <div className="flex items-center gap-2 text-sm text-slate-600">
-                            <Users className="h-3 w-3" />
-                            {video.teams}
-                          </div>
-                          <div className="flex flex-wrap gap-1">
-                            {video.tags.slice(0, 2).map((tag) => (
-                              <Badge key={tag} variant="secondary" className="text-xs">
-                                {tag}
-                              </Badge>
-                            ))}
-                            {video.tags.length > 2 && (
-                              <Badge variant="secondary" className="text-xs">
-                                +{video.tags.length - 2}
-                              </Badge>
-                            )}
-                          </div>
-                          <div className="flex items-center justify-between text-xs text-slate-500">
-                            <div className="flex items-center gap-3">
-                              <span className="flex items-center gap-1">
-                                <Eye className="h-3 w-3" />
-                                {video.views}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <MessageCircle className="h-3 w-3" />
-                                {video.comments}
-                              </span>
+              {/* Desktop View */}
+              <div className="hidden md:block">
+                {view === "grid" ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredVideos.map((video) => (
+                      <Link key={video.id} href={`/video/${video.id}`}>
+                        <div className="group cursor-pointer">
+                          <div className="relative overflow-hidden rounded-lg bg-slate-200 aspect-video mb-3 hover:shadow-lg transition-all duration-200">
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
+                            <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded z-20">
+                              {video.duration}
                             </div>
-                            <span>by {video.uploadedBy}</span>
+                            <div className="absolute top-2 left-2 z-20">
+                              <Badge
+                                className={`text-xs ${video.gameType === 'Analysis' ? 'bg-blue-500' :
+                                    video.gameType === 'Training' ? 'bg-green-500' :
+                                      video.gameType === 'Development' ? 'bg-purple-500' :
+                                        'bg-orange-500'
+                                  }`}
+                              >
+                                {video.gameType}
+                              </Badge>
+                            </div>
+                            {video.isBookmarked && (
+                              <div className="absolute top-2 right-2 z-20">
+                                <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                              </div>
+                            )}
+                            <div className="absolute inset-0 flex items-center justify-center z-20">
+                              <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 group-hover:bg-white/30 transition-all duration-200">
+                                <Play className="h-6 w-6 text-white fill-current" />
+                              </div>
+                            </div>
+                            <div className="w-full h-full bg-gradient-to-br from-slate-300 to-slate-400" />
+                          </div>
+
+                          <div className="space-y-2">
+                            <h3 className="font-semibold text-slate-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                              {video.title}
+                            </h3>
+                            <div className="flex items-center gap-2 text-sm text-slate-600">
+                              <Calendar className="h-3 w-3" />
+                              {video.date}
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-slate-600">
+                              <Users className="h-3 w-3" />
+                              {video.teams}
+                            </div>
+                            <div className="flex flex-wrap gap-1">
+                              {video.tags.slice(0, 2).map((tag) => (
+                                <Badge key={tag} variant="secondary" className="text-xs">
+                                  {tag}
+                                </Badge>
+                              ))}
+                              {video.tags.length > 2 && (
+                                <Badge variant="secondary" className="text-xs">
+                                  +{video.tags.length - 2}
+                                </Badge>
+                              )}
+                            </div>
+                            <div className="flex items-center justify-between text-xs text-slate-500">
+                              <div className="flex items-center gap-3">
+                                <span className="flex items-center gap-1">
+                                  <Eye className="h-3 w-3" />
+                                  {video.views}
+                                </span>
+                                <span className="flex items-center gap-1">
+                                  <MessageCircle className="h-3 w-3" />
+                                  {video.comments}
+                                </span>
+                              </div>
+                              <span>by {video.uploadedBy}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <div className="space-y-4">
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-4">
                   {filteredVideos.map((video) => (
                     <Link key={video.id} href={`/video/${video.id}`}>
                       <div className="flex items-center gap-4 p-4 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer group">
@@ -484,6 +563,7 @@ export default function VideoAnalysisPage() {
                   ))}
                 </div>
               )}
+              </div>
             </EnhancedCardContent>
           </EnhancedCard>
         </TabsContent>

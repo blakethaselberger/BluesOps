@@ -1,10 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { EnhancedCard, EnhancedCardContent, EnhancedCardHeader, EnhancedCardTitle } from "@/components/ui/enhanced-card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { TeamPerformance } from "@/components/analytics/team-performance"
-import { PlayerComparison } from "@/components/analytics/player-comparison"
-import { GoalieStats } from "@/components/analytics/goalie-stats"
-import { AdvancedMetrics } from "@/components/analytics/advanced-metrics"
+import { TeamPerformanceMobile } from "@/components/analytics/team-performance-mobile"
+import { PlayerComparisonMobile } from "@/components/analytics/player-comparison-mobile"
+import { GoalieStatsMobile } from "@/components/analytics/goalie-stats-mobile"
+import { AdvancedMetricsMobile } from "@/components/analytics/advanced-metrics-mobile"
 import { PageHeader } from "@/components/ui/page-header"
 import { PageLayout } from "@/components/ui/page-layout"
 
@@ -57,7 +57,7 @@ export default function AnalyticsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-2 md:pl-2">
-              <TeamPerformance />
+              <TeamPerformanceMobile />
             </CardContent>
           </Card>
         </TabsContent>
@@ -70,7 +70,7 @@ export default function AnalyticsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-2 md:pl-2">
-              <PlayerComparison />
+              <PlayerComparisonMobile />
             </CardContent>
           </Card>
         </TabsContent>
@@ -81,7 +81,7 @@ export default function AnalyticsPage() {
               <CardDescription className="text-gray-800 font-medium text-xs md:text-sm">Detailed goaltending metrics</CardDescription>
             </CardHeader>
             <CardContent className="p-2 md:pl-2">
-              <GoalieStats />
+              <GoalieStatsMobile />
             </CardContent>
           </Card>
         </TabsContent>
@@ -92,7 +92,7 @@ export default function AnalyticsPage() {
               <CardDescription className="text-gray-800 font-medium text-xs md:text-sm">In-depth analytical data</CardDescription>
             </CardHeader>
             <CardContent className="p-2 md:pl-2">
-              <AdvancedMetrics />
+              <AdvancedMetricsMobile />
             </CardContent>
           </Card>
         </TabsContent>
