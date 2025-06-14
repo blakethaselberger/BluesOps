@@ -25,21 +25,17 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
     const [hasCheckedAuth, setHasCheckedAuth] = useState(false)
     const router = useRouter()
     const pathname = usePathname()
-    const hasInitialized = useRef(false)
 
     useEffect(() => {
-        // Only check auth once on mount, not on every pathname change
-        if (!hasInitialized.current) {
-            hasInitialized.current = true
-            const authStatus = localStorage.getItem('isAuthenticated')
-            const isAuth = authStatus === 'true'
-            setIsAuthenticated(isAuth)
-            setHasCheckedAuth(true)
+        // Check auth status
+        const authStatus = localStorage.getItem('isAuthenticated')
+        const isAuth = authStatus === 'true'
+        setIsAuthenticated(isAuth)
+        setHasCheckedAuth(true)
 
-            // If not authenticated and not on login page, redirect to login
-            if (!isAuth && pathname !== '/login') {
-                router.push('/login')
-            }
+        // If not authenticated and not on login/logout page, redirect to login
+        if (!isAuth && pathname !== '/login' && pathname !== '/logout') {
+            router.push('/login')
         }
     }, [pathname, router])
 
@@ -78,8 +74,8 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
         )
     }
 
-    // If not authenticated, show login page (children will be login page)
-    if (!isAuthenticated) {
+    // If not authenticated or on login/logout pages, show page without layout wrapper
+    if (!isAuthenticated || pathname === '/logout' || pathname === '/login') {
         return <>{children}</>
     }
 

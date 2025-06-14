@@ -29,10 +29,7 @@ export function Header({ toggleSidebar, sidebarOpen, isCollapsed, toggleCollapse
   const [searchValue, setSearchValue] = useState("")
 
   const handleLogout = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('isAuthenticated')
-      router.push('/login')
-    }
+    router.push('/logout')
   }
 
   const notifications = [

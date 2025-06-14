@@ -11,8 +11,10 @@ export default function LogoutPage() {
         localStorage.removeItem('isAuthenticated')
         localStorage.removeItem('user')
 
-        // Redirect to home (which will show login because isAuthenticated is now false)
-        router.push('/')
+        // Small delay to ensure state updates before redirect
+        setTimeout(() => {
+            router.push('/login')
+        }, 500)
     }, [router])
 
     return (
