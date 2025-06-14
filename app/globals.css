@@ -416,4 +416,49 @@
   .hover-scale {
     @apply transition-transform duration-200 ease-out hover:scale-105;
   }
+
+  /* Mobile AI Chatbot Keyboard Handling */
+  .mobile-chat-input {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    transform: translateZ(0); /* Force GPU acceleration */
+    -webkit-transform: translateZ(0);
+  }
+
+  /* Prevent viewport zoom on input focus */
+  @media (max-width: 768px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="password"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="url"],
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+
+  /* Visual viewport handling for mobile keyboards */
+  .mobile-chat-container {
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height */
+    transition: height 0.3s ease-in-out;
+  }
+
+  /* Safe area handling for notched devices */
+  .mobile-safe-area {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Smooth transitions for keyboard appearance */
+  .keyboard-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Prevent body scroll when chat is open */
+  body.chat-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
 }

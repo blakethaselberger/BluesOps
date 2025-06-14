@@ -49,12 +49,12 @@ interface AIChatbotDesktopProps {
 // Add icons to quick actions
 const getQuickActionsWithIcons = (): QuickAction[] => {
     const iconMap: Record<string, React.ReactNode> = {
-        'cap-check': <Calculator className="h-4 w-4" />,
-        'player-stats': <BarChart3 className="h-4 w-4" />,
         'contract-info': <DollarSign className="h-4 w-4" />,
+        'cba-compliance': <Shield className="h-4 w-4" />,
+        'cap-management': <Calculator className="h-4 w-4" />,
+        'player-analysis': <BarChart3 className="h-4 w-4" />,
         'trade-scenarios': <Users className="h-4 w-4" />,
-        'draft-analysis': <Target className="h-4 w-4" />,
-        'roster-optimization': <Shield className="h-4 w-4" />
+        'draft-analysis': <Target className="h-4 w-4" />
     }
     
     return baseQuickActions.map(action => ({

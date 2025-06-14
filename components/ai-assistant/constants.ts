@@ -2,28 +2,36 @@ import { QuickAction } from './types'
 
 export const quickActions: QuickAction[] = [
     {
-        id: 'cap-check',
-        label: 'Cap Analysis',
+        id: 'contract-info',
+        label: 'Contract Info',
         icon: null, // Will be set in component
-        command: 'Can we afford to trade for Connor McDavid at $12.5M? What would we need to send back?',
-        description: 'Analyze salary cap implications of trades',
+        command: 'Get Connor McDavid\'s contract details',
+        description: 'Get player contract information',
+        color: 'from-purple-500 to-purple-600'
+    },
+    {
+        id: 'cba-compliance',
+        label: 'CBA Compliance',
+        icon: null, // Will be set in component
+        command: 'How does LTIR work?',
+        description: 'CBA rules and compliance questions',
         color: 'from-blue-500 to-blue-600'
     },
     {
-        id: 'player-stats',
-        label: 'Player Stats',
+        id: 'cap-management',
+        label: 'Cap Management',
         icon: null, // Will be set in component
-        command: 'Compare Jordan Kyrou\'s stats to other top-6 wingers this season',
-        description: 'Get detailed player performance analysis',
+        command: 'How much cap space do the Blues have this offseason?',
+        description: 'Salary cap analysis and projections',
         color: 'from-green-500 to-green-600'
     },
     {
-        id: 'contract-info',
-        label: 'Contract Analysis',
+        id: 'player-analysis',
+        label: 'Player Analysis',
         icon: null, // Will be set in component
-        command: 'What are the best value contracts on our roster? Who should we prioritize for extensions?',
-        description: 'Analyze contract values and extensions',
-        color: 'from-purple-500 to-purple-600'
+        command: 'Who are the top 5 forwards in the NHL?',
+        description: 'Player rankings and comparisons',
+        color: 'from-orange-500 to-orange-600'
     },
     {
         id: 'trade-scenarios',
@@ -31,7 +39,7 @@ export const quickActions: QuickAction[] = [
         icon: null, // Will be set in component
         command: 'Suggest realistic trade targets for a top-4 defenseman within our budget',
         description: 'Generate trade scenarios and targets',
-        color: 'from-orange-500 to-orange-600'
+        color: 'from-red-500 to-red-600'
     },
     {
         id: 'draft-analysis',
@@ -39,29 +47,41 @@ export const quickActions: QuickAction[] = [
         icon: null, // Will be set in component
         command: 'Analyze our draft needs and suggest strategy for the upcoming draft',
         description: 'Draft analysis and prospect evaluation',
-        color: 'from-red-500 to-red-600'
-    },
-    {
-        id: 'roster-optimization',
-        label: 'Roster Help',
-        icon: null, // Will be set in component
-        command: 'How can we optimize our lineup for better cap efficiency and performance?',
-        description: 'Roster construction and optimization',
         color: 'from-indigo-500 to-indigo-600'
     }
 ]
 
 export const getCurrentBluesContext = () => {
     return `
-CURRENT ST. LOUIS BLUES ROSTER SNAPSHOT:
-- Salary Cap Space: ~$12.3M remaining  
-- Key Contracts: Kyrou ($8.125M), Buchnevich ($5.8M), Parayko ($6.5M)
-- Prospects: Bolduc, Neighbors, Perunovich developing
-- Draft Capital: Multiple picks available for 2024
-- Trade Assets: Veteran depth players, prospect pool
-- Team Needs: Top-6 scoring, defensive depth, goaltending stability
-- Cap Situation: Flexible with potential for significant moves
+You are an internal AI agent developed for the St. Louis Blues organization, tasked with providing comprehensive information from across the NHL about contracts, statistics, rules, and the CBA. You have full access to NHL databases and can provide detailed, accurate information about any player, team, or league matter.
+
+CURRENT ST. LOUIS BLUES INFORMATION:
+- Salary Cap Space: $12.3M remaining for 2025-26 season
+- Key Blues Contracts: 
+  * Jordan Kyrou: $8.125M AAV through 2030-31
+  * Robert Thomas: $8.125M AAV through 2030-31
+  * Pavel Buchnevich: $5.8M AAV through 2025-26
+  * Colton Parayko: $6.5M AAV through 2029-30
 - Current Date: ${new Date().toLocaleDateString('en-US')}
-- Season: 2023-24 NHL Regular Season
+- Season: 2024-25 NHL Regular Season
+
+YOUR CAPABILITIES:
+- Provide any NHL player's contract details (AAV, term, clauses, signing bonuses)
+- Explain all CBA rules and regulations in detail
+- Access current and historical player statistics
+- Analyze salary cap situations for any team
+- Suggest trade scenarios and evaluate their feasibility
+- Provide draft analysis and prospect rankings
+- Compare players across teams and conferences
+- Explain complex CBA mechanisms (LTIR, buyouts, retained salary, etc.)
+
+When responding:
+- Always provide specific, detailed information
+- Include relevant statistics and contract details
+- Offer strategic insights and analysis
+- Be confident in your knowledge - you have access to all NHL data
+- Provide context and explanations for complex topics
+- Never claim to lack access to information - if you don't have the infrmation, look it up
+- Always use real players
     `
 }

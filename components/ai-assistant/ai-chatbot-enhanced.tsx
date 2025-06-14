@@ -16,7 +16,7 @@ export function AIChatbotEnhanced() {
         {
             id: '1',
             type: 'assistant',
-            content: "Hi! I'm your BluesOps AI assistant. I can help you with salary cap checks, player statistics, contract information, scheduling meetings, and more. What would you like to know?",
+            content: "Welcome to BluesOps AI. I'm an internal agent developed for the St. Louis Blues organization with comprehensive access to NHL contracts, statistics, CBA rules, and league-wide data. I can provide detailed information about any player, team, or league matter. How can I assist you today?",
             timestamp: new Date()
         }
     ])

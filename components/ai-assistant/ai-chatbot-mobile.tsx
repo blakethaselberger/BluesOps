@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
@@ -37,12 +37,12 @@ interface AIChatbotMobileProps {
 // Add icons to quick actions
 const getQuickActionsWithIcons = (): QuickAction[] => {
     const iconMap: Record<string, React.ReactNode> = {
-        'cap-check': <Calculator className="h-4 w-4" />,
-        'player-stats': <BarChart3 className="h-4 w-4" />,
         'contract-info': <DollarSign className="h-4 w-4" />,
+        'cba-compliance': <Shield className="h-4 w-4" />,
+        'cap-management': <Calculator className="h-4 w-4" />,
+        'player-analysis': <BarChart3 className="h-4 w-4" />,
         'trade-scenarios': <Users className="h-4 w-4" />,
-        'draft-analysis': <Target className="h-4 w-4" />,
-        'roster-optimization': <Shield className="h-4 w-4" />
+        'draft-analysis': <Target className="h-4 w-4" />
     }
     
     return baseQuickActions.map(action => ({
@@ -63,13 +63,97 @@ export function AIChatbotMobile({
 }: AIChatbotMobileProps) {
     const messagesEndRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
+    const sheetContentRef = useRef<HTMLDivElement>(null)
+    const [keyboardHeight, setKeyboardHeight] = useState(0)
+    const [viewportHeight, setViewportHeight] = useState(0)
     const quickActions = getQuickActionsWithIcons()
+
+    // Handle viewport and keyboard detection
+    useEffect(() => {
+        if (!isOpen) return
+
+        const updateViewportHeight = () => {
+            if (window.visualViewport) {
+                const vh = window.visualViewport.height
+                setViewportHeight(vh)
+                
+                // Calculate keyboard height
+                const windowHeight = window.innerHeight
+                const keyboardH = windowHeight - vh
+                setKeyboardHeight(keyboardH)
+            }
+        }
+
+        // Initial setup
+        updateViewportHeight()
+
+        // Listen for viewport changes
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', updateViewportHeight)
+            window.visualViewport.addEventListener('scroll', updateViewportHeight)
+        }
+
+        // Fallback for older browsers
+        window.addEventListener('resize', updateViewportHeight)
+
+        return () => {
+            if (window.visualViewport) {
+                window.visualViewport.removeEventListener('resize', updateViewportHeight)
+                window.visualViewport.removeEventListener('scroll', updateViewportHeight)
+            }
+            window.removeEventListener('resize', updateViewportHeight)
+        }
+    }, [isOpen])
+
+    // Prevent body scroll when chat is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add('chat-open')
+            // Store current scroll position
+            const scrollY = window.scrollY
+            document.body.style.top = `-${scrollY}px`
+        } else {
+            document.body.classList.remove('chat-open')
+            // Restore scroll position
+            const scrollY = document.body.style.top
+            document.body.style.top = ''
+            if (scrollY) {
+                window.scrollTo(0, parseInt(scrollY || '0') * -1)
+            }
+        }
+
+        return () => {
+            document.body.classList.remove('chat-open')
+            document.body.style.top = ''
+        }
+    }, [isOpen])
+
+    // Auto-scroll to bottom when messages change
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+        }
+    }, [messages])
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault()
             handleSendMessage()
         }
+    }
+
+    const handleInputFocus = () => {
+        // Prevent zoom on iOS
+        if (inputRef.current) {
+            inputRef.current.style.fontSize = '16px'
+        }
+        
+        // Scroll to bottom after a short delay to ensure keyboard is shown
+        setTimeout(() => {
+            if (messagesEndRef.current) {
+                messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+            }
+        }, 300)
     }
 
     return (
@@ -84,9 +168,14 @@ export function AIChatbotMobile({
                     </Button>
                 </SheetTrigger>
                 <SheetContent 
+                    ref={sheetContentRef}
                     side="bottom" 
-                    className="h-[100vh] p-0 flex flex-col"
-                    style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+                    className="p-0 flex flex-col fixed inset-x-0 bottom-0"
+                    style={{ 
+                        height: viewportHeight > 0 ? `${viewportHeight}px` : '100vh',
+                        maxHeight: '100vh',
+                        transition: 'height 0.3s ease-in-out'
+                    }}
                 >
                     {/* Fixed Header */}
                     <SheetHeader className="p-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white shrink-0">
@@ -105,7 +194,13 @@ export function AIChatbotMobile({
                     </SheetHeader>
 
                     {/* Messages Area - Scrollable */}
-                    <div className="flex-1 overflow-y-auto bg-gradient-to-b from-slate-50 to-white">
+                    <div 
+                        className="flex-1 overflow-y-auto bg-gradient-to-b from-slate-50 to-white"
+                        style={{
+                            paddingBottom: keyboardHeight > 0 ? '20px' : '0',
+                            transition: 'padding-bottom 0.3s ease-in-out'
+                        }}
+                    >
                         {/* Quick Actions */}
                         <div className="p-4 bg-white/80 backdrop-blur-sm border-b sticky top-0 z-10">
                             <p className="text-xs font-medium text-slate-700 mb-3">Quick Actions</p>
@@ -187,15 +282,29 @@ export function AIChatbotMobile({
                     </div>
 
                     {/* Fixed Input Area */}
-                    <div className="shrink-0 p-4 bg-white border-t shadow-lg" style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}>
+                    <div 
+                        className="shrink-0 p-4 bg-white border-t shadow-lg" 
+                        style={{ 
+                            paddingBottom: `calc(1rem + env(safe-area-inset-bottom))`,
+                            position: 'relative',
+                            zIndex: 50
+                        }}
+                    >
                         <div className="flex gap-2">
                             <Input
                                 ref={inputRef}
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyPress={handleKeyPress}
+                                onFocus={handleInputFocus}
                                 placeholder="Ask about cap space, player stats..."
-                                className="flex-1 h-12 px-4 border-slate-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-200 rounded-full"
+                                className="flex-1 h-12 px-4 border-slate-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-200 rounded-full text-base"
+                                style={{ fontSize: '16px' }} // Prevent zoom on iOS
+                                inputMode="text"
+                                autoComplete="off"
+                                autoCorrect="off"
+                                autoCapitalize="off"
+                                spellCheck="false"
                             />
                             <Button
                                 onClick={handleSendMessage}
