@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Plus, Search, List, Grid, TrendingUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { AdvancedPlayerFilters } from "@/components/players/player-filters"
-import { PlayerTableEnhanced } from "@/components/players/player-table-enhanced"
+import { PlayerListResponsive } from "@/components/players/player-list-responsive"
 import { players, getLeagueIcon, type Player } from "@/data/players-data"
 import { PageHeader } from "@/components/ui/page-header"
 import { PageLayout, PageSection } from "@/components/ui/page-layout"
@@ -183,8 +183,8 @@ export default function PlayersPage() {
         title="Player Database"
         description="View and manage player information across all leagues"
         action={
-          <div className="flex items-center gap-3">
-            <div className="flex border border-slate-200 rounded-lg p-1">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="hidden sm:flex border border-slate-200 rounded-lg p-1">
               <Button
                 variant={viewMode === "table" ? "default" : "ghost"}
                 size="sm"
@@ -208,9 +208,10 @@ export default function PlayersPage() {
                 <Grid className="h-4 w-4" />
               </Button>
             </div>
-            <Button className="sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 h-11 touch-target">
-              <Plus className="mr-2 h-4 w-4" />
-              Add Player
+            <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 h-9 sm:h-10 px-3 sm:px-4 text-sm">
+              <Plus className="mr-1 sm:mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Add Player</span>
+              <span className="sm:hidden">Add</span>
             </Button>
           </div>
         }
@@ -272,7 +273,7 @@ export default function PlayersPage() {
                 </p>
               </CardHeader>
               <CardContent className="p-4 md:p-6">
-                <PlayerTableEnhanced players={filterPlayers(leaguePlayers)} />
+                <PlayerListResponsive players={filterPlayers(leaguePlayers)} />
               </CardContent>
             </Card>
           </TabsContent>

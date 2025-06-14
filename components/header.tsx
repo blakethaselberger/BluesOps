@@ -119,25 +119,31 @@ export function Header({ toggleSidebar, sidebarOpen, isCollapsed, toggleCollapse
           )}
 
           {/* Brand logo/text for mobile */}
-          <div className="lg:hidden flex items-center gap-3">
+          <div className="lg:hidden flex items-center gap-2">
             <img
               src="/st-louis-blues.svg"
               alt="Blues Logo"
-              className="h-6 w-6 object-contain"
+              className="h-6 w-6 md:h-7 md:w-7 object-contain drop-shadow-sm"
             />
-            <h1 className="text-sm md:text-base font-bold bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 bg-clip-text text-transparent">
-              BluesOps
-            </h1>
+            <div className="flex flex-col">
+              <h1 className="text-base font-black tracking-tight leading-none">
+                <span className="text-[#003087]">Blues</span>
+                <span className="text-[#FCB514]">Ops</span>
+              </h1>
+              <span className="text-[8px] text-slate-500 font-medium tracking-wider uppercase -mt-0.5">
+                Hockey Operations
+              </span>
+            </div>
           </div>
         </div>
 
         {/* Quick action buttons */}
-        <div className="ml-auto flex items-center gap-1 md:gap-2">
+        <div className="ml-auto flex items-center gap-1">
           {showSearch ? (
-            <div className="relative w-48 md:w-64">
+            <div className="relative w-32 sm:w-48 md:w-64">
               <Input
                 placeholder="Search..."
-                className="pr-8 border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-300 focus:ring-blue-200 text-sm h-8 md:h-9"
+                className="pr-8 border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-300 focus:ring-blue-200 text-xs sm:text-sm h-8 md:h-9"
                 autoFocus
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
@@ -216,7 +222,7 @@ export function Header({ toggleSidebar, sidebarOpen, isCollapsed, toggleCollapse
               >
                 <Bell className="h-4 w-4 md:h-5 md:w-5" />
                 {notificationCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 md:h-5 md:w-5 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-[9px] md:text-[10px] font-medium text-white shadow-sm animate-pulse-glow">
+                  <span className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 md:h-4 md:w-4 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-[8px] md:text-[9px] font-medium text-white shadow-sm animate-pulse-glow">
                     {notificationCount}
                   </span>
                 )}
@@ -287,11 +293,11 @@ export function Header({ toggleSidebar, sidebarOpen, isCollapsed, toggleCollapse
               <Button
                 variant="ghost"
                 size="icon"
-                className="ml-0 sm:ml-1 rounded-full hover:scale-105 transition-all duration-200 h-8 w-8 md:h-9 md:w-9"
+                className="ml-0 rounded-full hover:scale-105 transition-all duration-200 h-8 w-8 md:h-9 md:w-9 p-0"
               >
-                <Avatar className="h-6 w-6 md:h-8 md:w-8 ring-2 ring-blue-500/20 ring-offset-1 md:ring-offset-2 hover:ring-blue-500/40 transition-all duration-200">
+                <Avatar className="h-7 w-7 md:h-8 md:w-8 ring-2 ring-blue-500/20 ring-offset-1 hover:ring-blue-500/40 transition-all duration-200">
                   <AvatarImage src="/placeholder.svg?height=32&width=32" alt="John Doe" />
-                  <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold text-xs md:text-sm">
+                  <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold text-[10px] md:text-xs">
                     JD
                   </AvatarFallback>
                 </Avatar>
