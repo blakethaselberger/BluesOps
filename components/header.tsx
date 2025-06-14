@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Bell, Calendar, Check, ChevronRight, PanelLeft, Plus, SearchIcon, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
@@ -21,9 +22,17 @@ interface HeaderProps {
 }
 
 export function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
+  const router = useRouter()
   const [showSearch, setShowSearch] = useState(false)
   const [notificationCount, setNotificationCount] = useState(3)
   const [searchValue, setSearchValue] = useState("")
+
+  const handleLogout = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('isAuthenticated')
+      router.push('/login')
+    }
+  }
 
   const notifications = [
     {
@@ -308,7 +317,12 @@ export function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
                 </DropdownMenuItem>
               </div>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-red-600 hover:text-red-700 hover:bg-red-50">Sign out</DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer"
+                onClick={handleLogout}
+              >
+                Sign out
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

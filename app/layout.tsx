@@ -5,6 +5,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Providers } from "./providers"
 import { LayoutWrapper } from "@/components/layout-wrapper"
+import { Toaster } from "@/components/ui/toaster"
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({
           <Providers>
             <LayoutWrapper>{children}</LayoutWrapper>
           </Providers>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

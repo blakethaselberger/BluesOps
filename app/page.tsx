@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { EnhancedCard, EnhancedCardContent } from "@/components/ui/enhanced-card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -16,8 +18,18 @@ import {
   Target,
 } from "lucide-react"
 import { SystemNotes } from "@/components/dashboard/system-notes"
+import { useToast } from "@/lib/use-toast"
 
 export default function Dashboard() {
+  const { toast } = useToast()
+
+  const showComingSoon = (feature: string) => {
+    toast({
+      title: "Coming Soon",
+      description: `${feature} feature is currently under development and will be available soon.`,
+    })
+  }
+
   return (
     <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
       {/* Personalized greeting and quick actions */}
@@ -33,62 +45,54 @@ export default function Dashboard() {
         <Button
           variant="outline"
           className="h-auto flex-col items-start gap-2 p-4 md:p-6 justify-start text-left border-slate-200/60 hover:border-blue-300 hover:bg-gradient-to-br hover:from-blue-50 hover:to-indigo-50 transition-all duration-200 hover:scale-105 hover:shadow-soft group min-h-[120px] md:min-h-[140px]"
-          asChild
+          onClick={() => showComingSoon("Scouting Reports")}
         >
-          <a href="/scouting/new">
-            <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 text-white group-hover:from-blue-600 group-hover:to-blue-700 transition-all duration-200">
-              <PlusCircle className="h-4 w-4 md:h-5 md:w-5" />
-            </div>
-            <div className="font-semibold text-slate-900 text-sm md:text-base">Add Scouting Report</div>
-            <div className="text-xs md:text-sm text-slate-600">Create a new player evaluation</div>
-          </a>
+          <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 text-white group-hover:from-blue-600 group-hover:to-blue-700 transition-all duration-200">
+            <PlusCircle className="h-4 w-4 md:h-5 md:w-5" />
+          </div>
+          <div className="font-semibold text-slate-900 text-sm md:text-base">Add Scouting Report</div>
+          <div className="text-xs md:text-sm text-slate-600">Create a new player evaluation</div>
         </Button>
 
         <Button
           variant="outline"
           className="h-auto flex-col items-start gap-2 p-4 md:p-6 justify-start text-left border-slate-200/60 hover:border-emerald-300 hover:bg-gradient-to-br hover:from-emerald-50 hover:to-teal-50 transition-all duration-200 hover:scale-105 hover:shadow-soft group min-h-[120px] md:min-h-[140px]"
-          asChild
+          onClick={() => showComingSoon("Free Agents")}
         >
-          <a href="/players/free-agents">
-            <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 text-white group-hover:from-emerald-600 group-hover:to-emerald-700 transition-all duration-200">
-              <ClipboardList className="h-4 w-4 md:h-5 md:w-5" />
-            </div>
-            <div className="font-semibold text-slate-900 text-sm md:text-base">View Free Agents</div>
-            <div className="text-xs md:text-sm text-slate-600">Upcoming free agents list</div>
-          </a>
+          <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 text-white group-hover:from-emerald-600 group-hover:to-emerald-700 transition-all duration-200">
+            <ClipboardList className="h-4 w-4 md:h-5 md:w-5" />
+          </div>
+          <div className="font-semibold text-slate-900 text-sm md:text-base">View Free Agents</div>
+          <div className="text-xs md:text-sm text-slate-600">Upcoming free agents list</div>
         </Button>
 
         <Button
           variant="outline"
           className="h-auto flex-col items-start gap-2 p-4 md:p-6 justify-start text-left border-slate-200/60 hover:border-amber-300 hover:bg-gradient-to-br hover:from-amber-50 hover:to-orange-50 transition-all duration-200 hover:scale-105 hover:shadow-soft group min-h-[120px] md:min-h-[140px]"
-          asChild
+          onClick={() => showComingSoon("Cap Analysis")}
         >
-          <a href="/analytics/cap">
-            <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 text-white group-hover:from-amber-600 group-hover:to-amber-700 transition-all duration-200">
-              <DollarSign className="h-4 w-4 md:h-5 md:w-5" />
-            </div>
-            <div className="font-semibold text-slate-900 text-sm md:text-base">Cap Summary</div>
-            <div className="text-xs md:text-sm text-slate-600">Current salary cap situation</div>
-          </a>
+          <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 text-white group-hover:from-amber-600 group-hover:to-amber-700 transition-all duration-200">
+            <DollarSign className="h-4 w-4 md:h-5 md:w-5" />
+          </div>
+          <div className="font-semibold text-slate-900 text-sm md:text-base">Cap Summary</div>
+          <div className="text-xs md:text-sm text-slate-600">Current salary cap situation</div>
         </Button>
 
         <Button
           variant="outline"
           className="h-auto flex-col items-start gap-2 p-4 md:p-6 justify-start text-left border-slate-200/60 hover:border-blue-300 hover:bg-gradient-to-br hover:from-blue-50 hover:to-blue-100 transition-all duration-200 hover:scale-105 hover:shadow-soft group min-h-[120px] md:min-h-[140px]"
-          asChild
+          onClick={() => showComingSoon("Meeting Scheduler")}
         >
-          <a href="/notes/schedule">
-            <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 text-white group-hover:from-blue-600 group-hover:to-blue-700 transition-all duration-200">
-              <Calendar className="h-4 w-4 md:h-5 md:w-5" />
-            </div>
-            <div className="font-semibold text-slate-900 text-sm md:text-base">Schedule Meeting</div>
-            <div className="text-xs md:text-sm text-slate-600">Set up internal team meeting</div>
-          </a>
+          <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 text-white group-hover:from-blue-600 group-hover:to-blue-700 transition-all duration-200">
+            <Calendar className="h-4 w-4 md:h-5 md:w-5" />
+          </div>
+          <div className="font-semibold text-slate-900 text-sm md:text-base">Schedule Meeting</div>
+          <div className="text-xs md:text-sm text-slate-600">Set up internal team meeting</div>
         </Button>
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4 md:space-y-6">
-        <TabsList className="grid w-full grid-cols-3 md:w-auto md:grid-cols-none md:flex">
+        <TabsList className="grid w-full grid-cols-3 md:w-auto md:grid-cols-none md:flex md:justify-start">
           <TabsTrigger value="overview" className="text-xs md:text-sm">
             Overview
           </TabsTrigger>
@@ -209,6 +213,7 @@ export default function Dashboard() {
                 <Button
                   size="sm"
                   className="gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-sm"
+                  onClick={() => showComingSoon("Note Creation")}
                 >
                   <MessageSquare className="h-4 w-4" />
                   New Note

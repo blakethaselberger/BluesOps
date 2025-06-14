@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useSidebar } from "@/app/providers"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { useRouter, usePathname } from "next/navigation"
 
 const ClientSidebar = dynamic(() => import("@/components/client-sidebar").then((mod) => mod.ClientSidebar))
 
@@ -21,21 +22,52 @@ interface LayoutWrapperProps {
 export function LayoutWrapper({ children }: LayoutWrapperProps) {
     const { isOpen, toggle } = useSidebar()
     const [isCollapsed, setIsCollapsed] = useState(false)
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [hasCheckedAuth, setHasCheckedAuth] = useState(false)
+    const router = useRouter()
+    const pathname = usePathname()
+
+    useEffect(() => {
+        // Check authentication status immediately
+        const authStatus = localStorage.getItem('isAuthenticated')
+        const isAuth = authStatus === 'true'
+        setIsAuthenticated(isAuth)
+        setHasCheckedAuth(true)
+
+        // If not authenticated and not on login page, redirect to login
+        if (!isAuth && pathname !== '/login') {
+            router.push('/login')
+        }
+    }, [pathname, router])
 
     useEffect(() => {
         // Check localStorage for saved collapse state
-        const saved = localStorage.getItem('sidebar-collapsed')
-        if (saved) {
-            setIsCollapsed(JSON.parse(saved))
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('sidebar-collapsed')
+            if (saved) {
+                setIsCollapsed(JSON.parse(saved))
+            }
         }
     }, [])
 
     useEffect(() => {
-        localStorage.setItem('sidebar-collapsed', JSON.stringify(isCollapsed))
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('sidebar-collapsed', JSON.stringify(isCollapsed))
+        }
     }, [isCollapsed])
 
     const toggleCollapse = () => {
         setIsCollapsed(!isCollapsed)
+    }
+
+    // Don't show anything until we've checked auth
+    if (!hasCheckedAuth) {
+        return null
+    }
+
+    // If not authenticated, show login page (children will be login page)
+    if (!isAuthenticated) {
+        return <>{children}</>
     }
 
     return (
