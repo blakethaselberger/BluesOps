@@ -42,7 +42,7 @@ const activities = [
       initials: "LW",
     },
     action: "commented on",
-    target: "Ryan Miller's performance",
+    target: "Stu Miller's performance",
     time: "Yesterday",
   },
   {
