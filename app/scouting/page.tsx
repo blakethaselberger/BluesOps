@@ -4,22 +4,24 @@ import { ReportsTable } from "@/components/reports/reports-table"
 import { Button } from "@/components/ui/button"
 import { PlusCircle, FileText, Users, Target, BarChart3, Layers, Video } from "lucide-react"
 import { AddReportDialog } from "@/components/reports/add-report-dialog"
+import { PageHeader } from "@/components/ui/page-header"
+import { PageLayout } from "@/components/ui/page-layout"
 
 export default function ReportsPage() {
   return (
-    <div className="flex flex-col gap-4 md:gap-6 lg:gap-8 p-4 md:p-6 lg:p-8">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="space-y-2">
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-slate-900">Reports</h1>
-          <p className="text-slate-600 text-sm md:text-base lg:text-lg">View and manage all team reports</p>
-        </div>
-        <AddReportDialog>
-          <Button className="sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 h-11 touch-target">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Add Report
-          </Button>
-        </AddReportDialog>
-      </div>
+    <PageLayout>
+      <PageHeader
+        title="Reports"
+        description="View and manage all team reports"
+        action={
+          <AddReportDialog>
+            <Button className="sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 h-11 touch-target">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Add Report
+            </Button>
+          </AddReportDialog>
+        }
+      />
 
       <Tabs defaultValue="all" className="space-y-4 md:space-y-6">
         <div className="bg-white rounded-lg p-1 shadow-sm border overflow-hidden">
@@ -209,6 +211,6 @@ export default function ReportsPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </PageLayout>
   )
 }

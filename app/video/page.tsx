@@ -35,6 +35,8 @@ import {
   Star
 } from "lucide-react"
 import Link from "next/link"
+import { PageHeader } from "@/components/ui/page-header"
+import { PageLayout, PageSection } from "@/components/ui/page-layout"
 
 interface VideoItem {
   id: string
@@ -165,20 +167,18 @@ export default function VideoAnalysisPage() {
   })
 
   return (
-    <div className="space-y-6">
+    <PageLayout>
       {/* Header */}
-      <div className="bg-gradient-to-r from-white to-blue-50/30 rounded-xl p-6 shadow-soft border border-slate-200/60">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900 mb-2">Video Analysis</h1>
-            <p className="text-slate-600">Professional video analysis and game footage library</p>
-          </div>
+      <PageHeader
+        title="Video Analysis"
+        description="Professional video analysis and game footage library"
+        action={
           <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700">
             <Upload className="mr-2 h-4 w-4" />
             Upload Video
           </Button>
-        </div>
-      </div>
+        }
+      />
 
       {/* Filters & Search */}
       <EnhancedCard>
@@ -488,6 +488,6 @@ export default function VideoAnalysisPage() {
           </EnhancedCard>
         </TabsContent>
       </Tabs>
-    </div>
+    </PageLayout>
   )
 }

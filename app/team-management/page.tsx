@@ -21,6 +21,8 @@ import {
     Layers
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { PageHeader } from "@/components/ui/page-header"
+import { PageLayout, PageSection } from "@/components/ui/page-layout"
 
 interface Player {
     id: string
@@ -95,38 +97,40 @@ export default function TeamManagementPage() {
     }
 
     return (
-        <div className="flex flex-col gap-6 p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="space-y-2">
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">Team Management</h1>
-                    <p className="text-slate-600">Manage line combinations, depth charts, and team structure</p>
-                </div>
-                <div className="flex items-center gap-3">
-                    <Button
-                        variant={isEditing ? "destructive" : "outline"}
-                        onClick={() => setIsEditing(!isEditing)}
-                        className="sm:w-auto"
-                    >
-                        {isEditing ? (
-                            <>
-                                <RotateCcw className="mr-2 h-4 w-4" />
-                                Cancel
-                            </>
-                        ) : (
-                            <>
-                                <Edit3 className="mr-2 h-4 w-4" />
-                                Edit Mode
-                            </>
-                        )}
-                    </Button>
-                    {isEditing && (
-                        <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700">
-                            <Save className="mr-2 h-4 w-4" />
-                            Save Changes
+        <PageLayout>
+            <PageHeader
+                title="Team Management"
+                description="Manage line combinations, depth charts, and team structure"
+                action={
+                    <div className="flex items-center gap-3">
+                        <Button
+                            variant={isEditing ? "destructive" : "outline"}
+                            onClick={() => setIsEditing(!isEditing)}
+                            className="sm:w-auto"
+                        >
+                            {isEditing ? (
+                                <>
+                                    <RotateCcw className="mr-2 h-4 w-4" />
+                                    Cancel
+                                </>
+                            ) : (
+                                <>
+                                    <Edit3 className="mr-2 h-4 w-4" />
+                                    Edit Mode
+                                </>
+                            )}
                         </Button>
-                    )}
-                </div>
-            </div>
+                        {isEditing && (
+                            <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700">
+                                <Save className="mr-2 h-4 w-4" />
+                                Save Changes
+                            </Button>
+                        )}
+                    </div>
+                }
+            />
+            
+            <PageSection>
 
             <Tabs defaultValue="lines" className="space-y-6">
                 <TabsList className="grid w-full grid-cols-4">
@@ -332,6 +336,7 @@ export default function TeamManagementPage() {
                     </Card>
                 </TabsContent>
             </Tabs>
-        </div>
+            </PageSection>
+        </PageLayout>
     )
 }

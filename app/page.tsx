@@ -19,6 +19,8 @@ import {
 } from "lucide-react"
 import { SystemNotes } from "@/components/dashboard/system-notes"
 import { useToast } from "@/lib/use-toast"
+import { PageHeader } from "@/components/ui/page-header"
+import { PageLayout, PageSection } from "@/components/ui/page-layout"
 
 export default function Dashboard() {
   const { toast } = useToast()
@@ -31,17 +33,15 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
-      {/* Personalized greeting and quick actions */}
-      <div className="space-y-2">
-        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight bg-gradient-to-r from-slate-900 via-blue-800 to-indigo-800 bg-clip-text text-transparent">
-          Good morning, John
-        </h1>
-        <p className="text-slate-600 text-sm md:text-base lg:text-lg">Here's what's happening with the Blues today</p>
-      </div>
+    <PageLayout>
+      <PageHeader
+        title="Good morning, John"
+        description="Here's what's happening with the Blues today"
+      />
 
       {/* Quick action cards */}
-      <div className="grid gap-3 md:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      <PageSection>
+        <div className="grid gap-3 md:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <Button
           variant="outline"
           className="h-auto flex-col items-start gap-2 p-4 md:p-6 justify-start text-left border-slate-200/60 hover:border-blue-300 hover:bg-gradient-to-br hover:from-blue-50 hover:to-indigo-50 transition-all duration-200 hover:scale-105 hover:shadow-soft group min-h-[120px] md:min-h-[140px]"
@@ -89,7 +89,8 @@ export default function Dashboard() {
           <div className="font-semibold text-slate-900 text-sm md:text-base">Schedule Meeting</div>
           <div className="text-xs md:text-sm text-slate-600">Set up internal team meeting</div>
         </Button>
-      </div>
+        </div>
+      </PageSection>
 
       <Tabs defaultValue="overview" className="space-y-4 md:space-y-6">
         <TabsList className="grid w-full grid-cols-3 md:w-auto md:grid-cols-none md:flex md:justify-start">
@@ -252,6 +253,6 @@ export default function Dashboard() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </PageLayout>
   )
 }

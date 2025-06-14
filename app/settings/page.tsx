@@ -4,14 +4,18 @@ import { ProfileSettings } from "@/components/settings/profile-settings"
 import { TeamSettings } from "@/components/settings/team-settings"
 import { NotificationSettings } from "@/components/settings/notification-settings"
 import { SecuritySettings } from "@/components/settings/security-settings"
+import { PageHeader } from "@/components/ui/page-header"
+import { PageLayout, PageSection } from "@/components/ui/page-layout"
 
 export default function SettingsPage() {
   return (
-    <div className="flex flex-col gap-4 p-4 md:gap-8 md:p-8">
-      <div>
-        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight">Settings</h1>
-        <p className="text-slate-600 text-sm md:text-base">Manage your account and preferences</p>
-      </div>
+    <PageLayout>
+      <PageHeader
+        title="Settings"
+        description="Manage your account and preferences"
+      />
+      
+      <PageSection>
       <Tabs defaultValue="profile" className="space-y-4">
         <div className="bg-white rounded-lg p-1 shadow-sm border">
           <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 h-auto gap-1 bg-transparent">
@@ -87,6 +91,7 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+      </PageSection>
+    </PageLayout>
   )
 }

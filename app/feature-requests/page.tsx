@@ -27,6 +27,8 @@ import {
     Zap
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { PageHeader } from "@/components/ui/page-header"
+import { PageLayout, PageSection } from "@/components/ui/page-layout"
 
 interface FeatureRequest {
     id: string
@@ -174,87 +176,89 @@ export default function FeatureRequestsPage() {
     }
 
     return (
-        <div className="flex flex-col gap-6 p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="space-y-2">
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">Feature Requests</h1>
-                    <p className="text-slate-600">Submit ideas, report bugs, and track development progress</p>
-                </div>
-                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogTrigger asChild>
-                        <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700">
-                            <Plus className="mr-2 h-4 w-4" />
-                            Submit Request
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[525px]">
-                        <DialogHeader>
-                            <DialogTitle>Submit New Feature Request</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4 py-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="title">Title</Label>
-                                <Input
-                                    id="title"
-                                    placeholder="Brief description of your request..."
-                                    value={newRequest.title}
-                                    onChange={(e) => setNewRequest({ ...newRequest, title: e.target.value })}
-                                />
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label htmlFor="description">Description</Label>
-                                <Textarea
-                                    id="description"
-                                    placeholder="Provide detailed information about your request..."
-                                    className="min-h-[100px]"
-                                    value={newRequest.description}
-                                    onChange={(e) => setNewRequest({ ...newRequest, description: e.target.value })}
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
+        <PageLayout>
+            <PageHeader
+                title="Feature Requests"
+                description="Submit ideas, report bugs, and track development progress"
+                action={
+                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                        <DialogTrigger asChild>
+                            <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700">
+                                <Plus className="mr-2 h-4 w-4" />
+                                Submit Request
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[525px]">
+                            <DialogHeader>
+                                <DialogTitle>Submit New Feature Request</DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4 py-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="category">Category</Label>
-                                    <Select value={newRequest.category} onValueChange={(value) => setNewRequest({ ...newRequest, category: value })}>
-                                        <SelectTrigger>
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="feature">New Feature</SelectItem>
-                                            <SelectItem value="improvement">Improvement</SelectItem>
-                                            <SelectItem value="bug">Bug Report</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                                    <Label htmlFor="title">Title</Label>
+                                    <Input
+                                        id="title"
+                                        placeholder="Brief description of your request..."
+                                        value={newRequest.title}
+                                        onChange={(e) => setNewRequest({ ...newRequest, title: e.target.value })}
+                                    />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="priority">Priority</Label>
-                                    <Select value={newRequest.priority} onValueChange={(value) => setNewRequest({ ...newRequest, priority: value })}>
-                                        <SelectTrigger>
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="low">Low</SelectItem>
-                                            <SelectItem value="medium">Medium</SelectItem>
-                                            <SelectItem value="high">High</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                                    <Label htmlFor="description">Description</Label>
+                                    <Textarea
+                                        id="description"
+                                        placeholder="Provide detailed information about your request..."
+                                        className="min-h-[100px]"
+                                        value={newRequest.description}
+                                        onChange={(e) => setNewRequest({ ...newRequest, description: e.target.value })}
+                                    />
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="category">Category</Label>
+                                        <Select value={newRequest.category} onValueChange={(value) => setNewRequest({ ...newRequest, category: value })}>
+                                            <SelectTrigger>
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="feature">New Feature</SelectItem>
+                                                <SelectItem value="improvement">Improvement</SelectItem>
+                                                <SelectItem value="bug">Bug Report</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <Label htmlFor="priority">Priority</Label>
+                                        <Select value={newRequest.priority} onValueChange={(value) => setNewRequest({ ...newRequest, priority: value })}>
+                                            <SelectTrigger>
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="low">Low</SelectItem>
+                                                <SelectItem value="medium">Medium</SelectItem>
+                                                <SelectItem value="high">High</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-end gap-3 pt-4">
+                                    <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={handleSubmitRequest}>
+                                        Submit Request
+                                    </Button>
                                 </div>
                             </div>
-
-                            <div className="flex justify-end gap-3 pt-4">
-                                <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-                                    Cancel
-                                </Button>
-                                <Button onClick={handleSubmitRequest}>
-                                    Submit Request
-                                </Button>
-                            </div>
-                        </div>
-                    </DialogContent>
-                </Dialog>
-            </div>
+                        </DialogContent>
+                    </Dialog>
+                }
+            />
+            
+            <PageSection>
 
             {/* Stats Overview */}
             <div className="grid gap-4 md:grid-cols-4">
@@ -424,6 +428,7 @@ export default function FeatureRequestsPage() {
                     </Card>
                 ))}
             </div>
-        </div>
+            </PageSection>
+        </PageLayout>
     )
 }

@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Activity, Download, Filter, Plus, TrendingUp, Users, Zap } from "lucide-react"
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar } from "recharts"
+import { PageHeader } from "@/components/ui/page-header"
+import { PageLayout, PageSection } from "@/components/ui/page-layout"
 
 const trackingData = [
     { date: "Oct", speed: 28.5, distance: 5.2, acceleration: 4.1 },
@@ -33,12 +35,13 @@ export default function TrackingPage() {
     const [dateRange, setDateRange] = useState("season")
 
     return (
-        <div className="space-y-6">
-            {/* Header */}
-            <div className="bg-gradient-to-r from-white to-slate-50 rounded-xl p-6 shadow-soft border border-slate-200/60">
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900 mb-2">Player Tracking</h1>
-                <p className="text-slate-600">Advanced player movement and performance tracking data</p>
-            </div>
+        <PageLayout>
+            <PageHeader
+                title="Player Tracking"
+                description="Advanced player movement and performance tracking data"
+            />
+            
+            <PageSection>
 
             {/* Filters */}
             <EnhancedCard>
@@ -267,6 +270,7 @@ export default function TrackingPage() {
                     </div>
                 </EnhancedCardContent>
             </EnhancedCard>
-        </div>
+            </PageSection>
+        </PageLayout>
     )
 }

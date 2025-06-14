@@ -11,25 +11,28 @@ import { PlayerNotes } from "@/components/notes/player-notes"
 import { DraftNotes } from "@/components/notes/draft-notes"
 import { Plus } from "lucide-react"
 import { Search } from "@/components/ui/search"
+import { PageHeader } from "@/components/ui/page-header"
+import { PageLayout, PageSection } from "@/components/ui/page-layout"
 
 export default function NotesPage() {
   const [searchQuery, setSearchQuery] = useState("")
 
   return (
-    <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
-      <div className="flex flex-col gap-3 md:gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight bg-gradient-to-r from-slate-900 via-blue-800 to-indigo-800 bg-clip-text text-transparent">Meeting Notes</h1>
-          <p className="text-slate-600 text-sm md:text-base">Collaborative notes and discussions</p>
-        </div>
-        <MeetingNotesDialog mode="add">
-          <Button className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 h-10 md:h-11">
-            <Plus className="mr-2 h-4 w-4" />
-            <span className="text-sm md:text-base">New Note</span>
-          </Button>
-        </MeetingNotesDialog>
-      </div>
-      <div className="flex flex-col gap-4">
+    <PageLayout>
+      <PageHeader
+        title="Meeting Notes"
+        description="Collaborative notes and discussions"
+        action={
+          <MeetingNotesDialog mode="add">
+            <Button className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 h-10 md:h-11">
+              <Plus className="mr-2 h-4 w-4" />
+              <span className="text-sm md:text-base">New Note</span>
+            </Button>
+          </MeetingNotesDialog>
+        }
+      />
+      
+      <PageSection>
         <Search
           placeholder="Search notes..."
           value={searchQuery}
@@ -96,7 +99,7 @@ export default function NotesPage() {
             </Card>
           </TabsContent>
         </Tabs>
-      </div>
-    </div>
+      </PageSection>
+    </PageLayout>
   )
 }

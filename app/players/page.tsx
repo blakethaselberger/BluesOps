@@ -11,6 +11,8 @@ import { cn } from "@/lib/utils"
 import { AdvancedPlayerFilters } from "@/components/players/player-filters"
 import { PlayerTableEnhanced } from "@/components/players/player-table-enhanced"
 import { players, getLeagueIcon, type Player } from "@/data/players-data"
+import { PageHeader } from "@/components/ui/page-header"
+import { PageLayout, PageSection } from "@/components/ui/page-layout"
 
 export default function PlayersPage() {
   const [viewMode, setViewMode] = useState<"table" | "cards">("table")
@@ -176,46 +178,46 @@ export default function PlayersPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 md:gap-6 lg:gap-8 p-4 md:p-6 lg:p-8">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="space-y-2">
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-slate-900">Player Database</h1>
-          <p className="text-slate-600 text-sm md:text-base lg:text-lg">View and manage player information across all leagues</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex border border-slate-200 rounded-lg p-1">
-            <Button
-              variant={viewMode === "table" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setViewMode("table")}
-              className={cn(
-                "h-8 px-3",
-                viewMode === "table" && "bg-blue-600 text-white"
-              )}
-            >
-              <List className="h-4 w-4" />
-            </Button>
-            <Button
-              variant={viewMode === "cards" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setViewMode("cards")}
-              className={cn(
-                "h-8 px-3",
-                viewMode === "cards" && "bg-blue-600 text-white"
-              )}
-            >
-              <Grid className="h-4 w-4" />
+    <PageLayout>
+      <PageHeader
+        title="Player Database"
+        description="View and manage player information across all leagues"
+        action={
+          <div className="flex items-center gap-3">
+            <div className="flex border border-slate-200 rounded-lg p-1">
+              <Button
+                variant={viewMode === "table" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setViewMode("table")}
+                className={cn(
+                  "h-8 px-3",
+                  viewMode === "table" && "bg-blue-600 text-white"
+                )}
+              >
+                <List className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "cards" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setViewMode("cards")}
+                className={cn(
+                  "h-8 px-3",
+                  viewMode === "cards" && "bg-blue-600 text-white"
+                )}
+              >
+                <Grid className="h-4 w-4" />
+              </Button>
+            </div>
+            <Button className="sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 h-11 touch-target">
+              <Plus className="mr-2 h-4 w-4" />
+              Add Player
             </Button>
           </div>
-          <Button className="sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 h-11 touch-target">
-            <Plus className="mr-2 h-4 w-4" />
-            Add Player
-          </Button>
-        </div>
-      </div>
+        }
+      />
 
       {/* Search and Advanced Filters */}
-      <div className="space-y-4">
+      <PageSection>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
           <Input
@@ -233,7 +235,7 @@ export default function PlayersPage() {
           setIsAdvancedOpen={setIsAdvancedOpen}
           resetFilters={resetFilters}
         />
-      </div>
+      </PageSection>
 
       <Tabs defaultValue="NHL" className="space-y-4 md:space-y-6">
         <div className="bg-white rounded-lg p-1 shadow-sm border overflow-hidden">
@@ -276,7 +278,6 @@ export default function PlayersPage() {
           </TabsContent>
         ))}
       </Tabs>
-    </div>
+    </PageLayout>
   )
 }
-

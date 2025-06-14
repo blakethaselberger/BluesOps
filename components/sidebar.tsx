@@ -64,11 +64,6 @@ const navGroups = [
     title: "Operations",
     items: [
       {
-        title: "Team Management",
-        href: "/team-management",
-        icon: Shield,
-      },
-      {
         title: "Player Tracking",
         href: "/tracking",
         icon: Activity,

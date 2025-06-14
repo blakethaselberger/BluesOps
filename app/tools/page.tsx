@@ -16,6 +16,8 @@ import {
     Zap
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { PageHeader } from "@/components/ui/page-header"
+import { PageLayout, PageSection } from "@/components/ui/page-layout"
 
 interface ToolItem {
     id: string
@@ -152,13 +154,13 @@ export default function ToolsPage() {
     }
 
     return (
-        <div className="flex flex-col gap-6 p-6">
-            <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900">Hockey Operations Tools</h1>
-                <p className="text-slate-600">
-                    Access specialized tools for draft simulation, roster management, and salary cap analysis
-                </p>
-            </div>
+        <PageLayout>
+            <PageHeader
+                title="Hockey Operations Tools"
+                description="Access specialized tools for draft simulation, roster management, and salary cap analysis"
+            />
+            
+            <PageSection>
 
             {/* Quick Stats */}
             <div className="grid gap-4 md:grid-cols-3">
@@ -304,6 +306,7 @@ export default function ToolsPage() {
                     </div>
                 </CardContent>
             </Card>
-        </div>
+            </PageSection>
+        </PageLayout>
     )
 }

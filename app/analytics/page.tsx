@@ -5,16 +5,16 @@ import { TeamPerformance } from "@/components/analytics/team-performance"
 import { PlayerComparison } from "@/components/analytics/player-comparison"
 import { GoalieStats } from "@/components/analytics/goalie-stats"
 import { AdvancedMetrics } from "@/components/analytics/advanced-metrics"
+import { PageHeader } from "@/components/ui/page-header"
+import { PageLayout } from "@/components/ui/page-layout"
 
 export default function AnalyticsPage() {
   return (
-    <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight bg-gradient-to-r from-slate-900 via-blue-800 to-blue-900 bg-clip-text text-transparent">Analytics Hub</h1>
-          <p className="text-slate-600 text-sm md:text-base">Advanced statistics and performance metrics</p>
-        </div>
-      </div>
+    <PageLayout>
+      <PageHeader
+        title="Analytics Hub"
+        description="Advanced statistics and performance metrics"
+      />
       <Tabs defaultValue="team" className="space-y-4">
         <div className="bg-white rounded-lg p-1 shadow-sm border">
           <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 h-auto gap-1 md:gap-2 bg-transparent">
@@ -97,6 +97,6 @@ export default function AnalyticsPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </PageLayout>
   )
 }
