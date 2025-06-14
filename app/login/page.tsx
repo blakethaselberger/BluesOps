@@ -10,23 +10,6 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 
-// Custom Hockey Puck Icon
-const HockeyPuck = () => (
-    <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-10 w-10 text-white"
-    >
-        <ellipse cx="12" cy="12" rx="8" ry="3" />
-        <ellipse cx="12" cy="12" rx="8" ry="3" transform="rotate(45 12 12)" />
-        <circle cx="12" cy="12" r="1" fill="currentColor" />
-    </svg>
-)
-
 export default function LoginPage() {
     const router = useRouter()
     const [email, setEmail] = useState("")
@@ -105,18 +88,26 @@ export default function LoginPage() {
     }, [router])
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50">
             <div className="w-full max-w-md space-y-8">
                 {/* Logo and Header */}
-                <div className="text-center space-y-4">
-                    <div className="mx-auto w-20 h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-xl">
-                        <HockeyPuck />
+                <div className="text-center space-y-6">
+                    <div className="mx-auto relative">
+                        <div className="absolute inset-0 bg-blue-600/20 blur-3xl rounded-full scale-150 opacity-50" />
+                        <div className="relative bg-[#003087] rounded-2xl p-6 shadow-2xl border border-[#003087]/20">
+                            <img
+                                src="/st-louis-blues.svg"
+                                alt="St. Louis Blues"
+                                className="h-16 w-16 mx-auto object-contain drop-shadow-2xl"
+                            />
+                        </div>
                     </div>
                     <div className="space-y-2">
-                        <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-slate-900 via-blue-800 to-indigo-800 bg-clip-text text-transparent">
-                            BluesOps
+                        <h1 className="text-4xl font-black tracking-tight">
+                            <span className="text-[#003087]">Blues</span>
+                            <span className="text-[#FCB514]">Ops</span>
                         </h1>
-                        <p className="text-slate-600">Hockey Operations Platform</p>
+                        <p className="text-sm text-slate-600 font-medium uppercase tracking-wider">St. Louis Blues Hockey Operations</p>
                     </div>
                 </div>
 
@@ -246,8 +237,12 @@ export default function LoginPage() {
                 </Card>
 
                 {/* Footer */}
-                <div className="text-center text-xs text-slate-500">
-                    © 2025 BluesOps. Internal hockey operations platform.
+                <div className="text-center space-y-2">
+                    <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
+                        <img src="/st-louis-blues.svg" alt="Blues" className="h-4 w-4 opacity-50" />
+                        <span>© 2025 St. Louis Blues Hockey Operations</span>
+                    </div>
+                    <p className="text-xs text-slate-400">Internal platform - Authorized personnel only</p>
                 </div>
             </div>
         </div>

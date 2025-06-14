@@ -139,32 +139,39 @@ export function Sidebar({ isOpen = true, className, isCollapsed = false }: Sideb
     >
       {/* Header with Logo */}
       <div className={cn(
-        "flex items-center border-b border-slate-200/60 dark:border-gray-800 transition-all duration-300",
-        isCollapsed ? "h-16 px-1 justify-center" : "h-16 px-4"
+        "flex items-center border-b border-slate-200/60 dark:border-gray-800 transition-all duration-300 bg-gradient-to-r from-white via-blue-50/20 to-white",
+        isCollapsed ? "h-14 md:h-16 px-2 justify-center" : "h-14 md:h-16 px-6"
       )}>
         <Link
           href="/"
           className={cn(
-            "flex items-center gap-3 font-semibold transition-all duration-300 hover:opacity-80",
+            "flex items-center gap-4 font-semibold transition-all duration-300 group",
             isCollapsed && "lg:justify-center lg:gap-0"
           )}
         >
           <div className="relative">
+            <div className="absolute inset-0 bg-blue-600/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <img
               src="/st-louis-blues.svg"
-              alt="Blues Logo"
+              alt="St. Louis Blues"
               className={cn(
-                "object-contain transition-all duration-300 hover:scale-110",
-                isCollapsed ? "h-6 w-6" : "h-8 w-8"
+                "object-contain transition-all duration-300 relative z-10 drop-shadow-lg group-hover:scale-110 group-hover:drop-shadow-xl",
+                isCollapsed ? "h-10 w-10" : "h-12 w-12"
               )}
             />
           </div>
-          <span className={cn(
-            "text-lg font-bold bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 bg-clip-text text-transparent transition-all duration-300",
+          <div className={cn(
+            "flex flex-col transition-all duration-300",
             isCollapsed && "lg:opacity-0 lg:w-0 lg:overflow-hidden lg:absolute"
           )}>
-            BluesOps
-          </span>
+            <span className="text-2xl font-black tracking-tight">
+              <span className="text-[#003087]">Blues</span>
+              <span className="text-[#FCB514]">Ops</span>
+            </span>
+            <span className="text-[10px] text-slate-500 font-medium tracking-wider uppercase -mt-1">
+              Hockey Operations
+            </span>
+          </div>
         </Link>
       </div>
       {/* Navigation */}

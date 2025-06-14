@@ -19,9 +19,11 @@ import { Input } from "@/components/ui/input"
 interface HeaderProps {
   toggleSidebar: () => void
   sidebarOpen: boolean
+  isCollapsed?: boolean
+  toggleCollapse?: () => void
 }
 
-export function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
+export function Header({ toggleSidebar, sidebarOpen, isCollapsed, toggleCollapse }: HeaderProps) {
   const router = useRouter()
   const [showSearch, setShowSearch] = useState(false)
   const [notificationCount, setNotificationCount] = useState(3)
@@ -97,6 +99,24 @@ export function Header({ toggleSidebar, sidebarOpen }: HeaderProps) {
             </TooltipTrigger>
             <TooltipContent side="right">{sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}</TooltipContent>
           </Tooltip>
+
+          {/* Desktop Collapse Button */}
+          {toggleCollapse && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleCollapse}
+                  className="hidden lg:flex mr-1 md:mr-2 transition-all duration-200 ease-in-out hover:bg-slate-100/80 hover:scale-105 h-9 w-9 md:h-10 md:w-10"
+                >
+                  <PanelLeft className={`h-4 w-4 md:h-5 md:w-5 transition-transform duration-300 ${isCollapsed ? "rotate-180" : ""}`} />
+                  <span className="sr-only">{isCollapsed ? "Expand sidebar" : "Collapse sidebar"}</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">{isCollapsed ? "Expand sidebar" : "Collapse sidebar"}</TooltipContent>
+            </Tooltip>
+          )}
 
           {/* Brand logo/text for mobile */}
           <div className="lg:hidden flex items-center gap-3">

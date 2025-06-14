@@ -3,7 +3,12 @@
 import { Header } from "@/components/header"
 import { useSidebar } from "@/app/providers"
 
-export function ClientHeader() {
+interface ClientHeaderProps {
+  isCollapsed?: boolean
+  toggleCollapse?: () => void
+}
+
+export function ClientHeader({ isCollapsed, toggleCollapse }: ClientHeaderProps) {
   const { isOpen, toggle } = useSidebar()
-  return <Header toggleSidebar={toggle} sidebarOpen={isOpen} />
+  return <Header toggleSidebar={toggle} sidebarOpen={isOpen} isCollapsed={isCollapsed} toggleCollapse={toggleCollapse} />
 }
