@@ -8,6 +8,6 @@ interface ClientSidebarProps {
 }
 
 export function ClientSidebar({ isCollapsed = false }: ClientSidebarProps) {
-  const { isOpen } = useSidebar()
-  return <Sidebar isOpen={isOpen} isCollapsed={isCollapsed} />
+  const { isOpen, toggle } = useSidebar()
+  return <Sidebar isOpen={isOpen} isCollapsed={isCollapsed} onNavigate={toggle} />
 }

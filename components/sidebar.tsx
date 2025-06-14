@@ -106,13 +106,15 @@ interface SidebarProps {
   isOpen?: boolean
   className?: string
   isCollapsed?: boolean
+  onNavigate?: () => void
 }
 
 // Memoize the nav item component to prevent unnecessary re-renders
-const NavItem = memo(({ item, pathname, isCollapsed }: { 
+const NavItem = memo(({ item, pathname, isCollapsed, onNavigate }: { 
   item: { title: string; href: string; icon: any }; 
   pathname: string; 
-  isCollapsed: boolean 
+  isCollapsed: boolean;
+  onNavigate?: () => void;
 }) => {
   const isActive = pathname === item.href;
   
@@ -136,7 +138,15 @@ const NavItem = memo(({ item, pathname, isCollapsed }: {
             )}
             asChild
           >
-            <Link href={item.href}>
+            <Link 
+              href={item.href}
+              onClick={() => {
+                // Close sidebar on mobile when navigating
+                if (onNavigate && window.innerWidth < 1024) {
+                  onNavigate();
+                }
+              }}
+            >
               <item.icon
                 className={cn(
                   "transition-all duration-200 flex-shrink-0 h-5 w-5",
@@ -176,7 +186,15 @@ const NavItem = memo(({ item, pathname, isCollapsed }: {
           )}
           asChild
         >
-          <Link href={item.href}>
+          <Link 
+            href={item.href}
+            onClick={() => {
+              // Close sidebar on mobile when navigating
+              if (onNavigate && window.innerWidth < 1024) {
+                onNavigate();
+              }
+            }}
+          >
             <item.icon
               className={cn(
                 "transition-all duration-200 flex-shrink-0 h-4 w-4",
@@ -202,7 +220,7 @@ const NavItem = memo(({ item, pathname, isCollapsed }: {
 
 NavItem.displayName = 'NavItem';
 
-export function Sidebar({ isOpen = true, className, isCollapsed = false }: SidebarProps) {
+export function Sidebar({ isOpen = true, className, isCollapsed = false, onNavigate }: SidebarProps) {
   const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
   const [expandedGroups, setExpandedGroups] = useState<string[]>(['Core', 'Operations'])
@@ -297,7 +315,7 @@ export function Sidebar({ isOpen = true, className, isCollapsed = false }: Sideb
                     </CollapsibleTrigger>
                     <CollapsibleContent className="space-y-1">
                       {group.items.map((item) => (
-                        <NavItem key={item.href} item={item} pathname={pathname} isCollapsed={false} />
+                        <NavItem key={item.href} item={item} pathname={pathname} isCollapsed={false} onNavigate={onNavigate} />
                       ))}
                     </CollapsibleContent>
                   </Collapsible>
@@ -305,7 +323,7 @@ export function Sidebar({ isOpen = true, className, isCollapsed = false }: Sideb
 
                 {/* Collapsed view - show all items as icons */}
                 {isCollapsed && group.items.map((item) => (
-                  <NavItem key={item.href} item={item} pathname={pathname} isCollapsed={true} />
+                  <NavItem key={item.href} item={item} pathname={pathname} isCollapsed={true} onNavigate={onNavigate} />
                 ))}
               </div>
             ))}
