@@ -2,9 +2,8 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Bell, Calendar, Check, ChevronRight, PanelLeft, Plus, SearchIcon, Users } from "lucide-react"
+import { Bell, Calendar, Check, ChevronRight, PanelLeft, Plus, SearchIcon, Users, Moon } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ModeToggle } from "@/components/mode-toggle"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import {
@@ -284,9 +283,20 @@ export function Header({ toggleSidebar, sidebarOpen, isCollapsed, toggleCollapse
 
           <div className="hidden sm:block mx-1 md:mx-2 h-4 md:h-6 w-px bg-slate-300/60" />
 
-          <div className="hidden sm:block">
-            <ModeToggle />
-          </div>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="hidden sm:flex text-slate-400 hover:text-slate-500 hover:bg-slate-100/80 transition-all duration-200 h-8 w-8 md:h-9 md:w-9 cursor-not-allowed"
+                disabled
+              >
+                <Moon className="h-4 w-4 md:h-5 md:w-5" />
+                <span className="sr-only">Dark mode (Coming Soon)</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Dark Mode - Coming Soon</TooltipContent>
+          </Tooltip>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -335,11 +345,13 @@ export function Header({ toggleSidebar, sidebarOpen, isCollapsed, toggleCollapse
                   Create New
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50">
-                  <div className="flex items-center justify-between w-full">
-                    <span>Theme</span>
-                    <ModeToggle />
-                  </div>
+                <DropdownMenuItem 
+                  className="hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50 cursor-not-allowed opacity-50"
+                  disabled
+                >
+                  <Moon className="mr-2 h-4 w-4" />
+                  <span>Dark Mode</span>
+                  <span className="ml-auto text-xs text-slate-400">Coming Soon</span>
                 </DropdownMenuItem>
               </div>
               <DropdownMenuSeparator />

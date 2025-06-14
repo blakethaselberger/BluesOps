@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo, memo } from "react"
 
 const navGroups = [
   {
@@ -108,6 +108,100 @@ interface SidebarProps {
   isCollapsed?: boolean
 }
 
+// Memoize the nav item component to prevent unnecessary re-renders
+const NavItem = memo(({ item, pathname, isCollapsed }: { 
+  item: { title: string; href: string; icon: any }; 
+  pathname: string; 
+  isCollapsed: boolean 
+}) => {
+  const isActive = pathname === item.href;
+  
+  if (isCollapsed) {
+    return (
+      <Tooltip delayDuration={300}>
+        <TooltipTrigger asChild>
+          <Button
+            variant={isActive ? "secondary" : "ghost"}
+            className={cn(
+              "transition-all duration-200 text-left relative group/item",
+              "h-12 w-12 p-0 justify-center",
+              isActive && [
+                "bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border border-blue-200/50 shadow-sm",
+                "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-gradient-to-b before:from-blue-500 before:to-blue-600 before:rounded-r-full"
+              ],
+              !isActive && [
+                "hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50 hover:text-slate-900 hover:shadow-sm",
+                "hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:bottom-0 hover:before:w-0.5 hover:before:bg-blue-300 hover:before:rounded-r-full hover:before:transition-all hover:before:duration-200"
+              ]
+            )}
+            asChild
+          >
+            <Link href={item.href}>
+              <item.icon
+                className={cn(
+                  "transition-all duration-200 flex-shrink-0 h-5 w-5",
+                  isActive ? "text-blue-600" : "text-slate-600 group-hover/item:text-slate-700",
+                )}
+              />
+            </Link>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent
+          side="right"
+          className="transition-all duration-200"
+          sideOffset={10}
+        >
+          <span className="font-medium">{item.title}</span>
+        </TooltipContent>
+      </Tooltip>
+    );
+  }
+
+  return (
+    <Tooltip delayDuration={1000}>
+      <TooltipTrigger asChild>
+        <Button
+          variant={isActive ? "secondary" : "ghost"}
+          className={cn(
+            "transition-all duration-200 text-left relative group/item w-full",
+            "justify-start gap-3 h-10 px-3 ml-2",
+            isActive && [
+              "bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border border-blue-200/50 shadow-sm",
+              "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-gradient-to-b before:from-blue-500 before:to-blue-600 before:rounded-r-full"
+            ],
+            !isActive && [
+              "hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50 hover:text-slate-900 hover:shadow-sm",
+              "hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:bottom-0 hover:before:w-0.5 hover:before:bg-blue-300 hover:before:rounded-r-full hover:before:transition-all hover:before:duration-200"
+            ]
+          )}
+          asChild
+        >
+          <Link href={item.href}>
+            <item.icon
+              className={cn(
+                "transition-all duration-200 flex-shrink-0 h-4 w-4",
+                isActive ? "text-blue-600" : "text-slate-600 group-hover/item:text-slate-700",
+              )}
+            />
+            <span className="font-medium text-sm truncate">
+              {item.title}
+            </span>
+          </Link>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent
+        side="right"
+        className="transition-all duration-200"
+        sideOffset={10}
+      >
+        <span className="font-medium">{item.title}</span>
+      </TooltipContent>
+    </Tooltip>
+  );
+});
+
+NavItem.displayName = 'NavItem';
+
 export function Sidebar({ isOpen = true, className, isCollapsed = false }: SidebarProps) {
   const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
@@ -117,13 +211,13 @@ export function Sidebar({ isOpen = true, className, isCollapsed = false }: Sideb
     setMounted(true)
   }, [])
 
-  const toggleGroup = (groupTitle: string) => {
+  const toggleGroup = useMemo(() => (groupTitle: string) => {
     setExpandedGroups(prev =>
       prev.includes(groupTitle)
         ? prev.filter(g => g !== groupTitle)
         : [...prev, groupTitle]
     )
-  }
+  }, [])
 
   return (
     <div
@@ -203,45 +297,7 @@ export function Sidebar({ isOpen = true, className, isCollapsed = false }: Sideb
                     </CollapsibleTrigger>
                     <CollapsibleContent className="space-y-1">
                       {group.items.map((item) => (
-                        <Tooltip key={item.href} delayDuration={isCollapsed ? 300 : 1000}>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={pathname === item.href ? "secondary" : "ghost"}
-                              className={cn(
-                                "transition-all duration-200 text-left relative group/item w-full",
-                                "justify-start gap-3 h-10 px-3 ml-2",
-                                pathname === item.href && [
-                                  "bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border border-blue-200/50 shadow-sm",
-                                  "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-gradient-to-b before:from-blue-500 before:to-blue-600 before:rounded-r-full"
-                                ],
-                                pathname !== item.href && [
-                                  "hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50 hover:text-slate-900 hover:shadow-sm",
-                                  "hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:bottom-0 hover:before:w-0.5 hover:before:bg-blue-300 hover:before:rounded-r-full hover:before:transition-all hover:before:duration-200"
-                                ]
-                              )}
-                              asChild
-                            >
-                              <Link href={item.href}>
-                                <item.icon
-                                  className={cn(
-                                    "transition-all duration-200 flex-shrink-0 h-4 w-4",
-                                    pathname === item.href ? "text-blue-600" : "text-slate-600 group-hover/item:text-slate-700",
-                                  )}
-                                />
-                                <span className="font-medium text-sm truncate">
-                                  {item.title}
-                                </span>
-                              </Link>
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent
-                            side="right"
-                            className="transition-all duration-200"
-                            sideOffset={10}
-                          >
-                            <span className="font-medium">{item.title}</span>
-                          </TooltipContent>
-                        </Tooltip>
+                        <NavItem key={item.href} item={item} pathname={pathname} isCollapsed={false} />
                       ))}
                     </CollapsibleContent>
                   </Collapsible>
@@ -249,42 +305,7 @@ export function Sidebar({ isOpen = true, className, isCollapsed = false }: Sideb
 
                 {/* Collapsed view - show all items as icons */}
                 {isCollapsed && group.items.map((item) => (
-                  <Tooltip key={item.href} delayDuration={300}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant={pathname === item.href ? "secondary" : "ghost"}
-                        className={cn(
-                          "transition-all duration-200 text-left relative group/item",
-                          "h-12 w-12 p-0 justify-center",
-                          pathname === item.href && [
-                            "bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border border-blue-200/50 shadow-sm",
-                            "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-gradient-to-b before:from-blue-500 before:to-blue-600 before:rounded-r-full"
-                          ],
-                          pathname !== item.href && [
-                            "hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/50 hover:text-slate-900 hover:shadow-sm",
-                            "hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:bottom-0 hover:before:w-0.5 hover:before:bg-blue-300 hover:before:rounded-r-full hover:before:transition-all hover:before:duration-200"
-                          ]
-                        )}
-                        asChild
-                      >
-                        <Link href={item.href}>
-                          <item.icon
-                            className={cn(
-                              "transition-all duration-200 flex-shrink-0 h-5 w-5",
-                              pathname === item.href ? "text-blue-600" : "text-slate-600 group-hover/item:text-slate-700",
-                            )}
-                          />
-                        </Link>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent
-                      side="right"
-                      className="transition-all duration-200"
-                      sideOffset={10}
-                    >
-                      <span className="font-medium">{item.title}</span>
-                    </TooltipContent>
-                  </Tooltip>
+                  <NavItem key={item.href} item={item} pathname={pathname} isCollapsed={true} />
                 ))}
               </div>
             ))}

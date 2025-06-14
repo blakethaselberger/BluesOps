@@ -1,17 +1,18 @@
 "use client"
 
-import dynamic from "next/dynamic"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 import { useSidebar } from "@/app/providers"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 import { useRouter, usePathname } from "next/navigation"
+import { ClientSidebar } from "@/components/client-sidebar"
+import { ClientHeader } from "@/components/client-header"
+import dynamic from "next/dynamic"
 
-const ClientSidebar = dynamic(() => import("@/components/client-sidebar").then((mod) => mod.ClientSidebar))
-
-const ClientHeader = dynamic(() => import("@/components/client-header").then((mod) => mod.ClientHeader))
-
-const AIChatbotEnhanced = dynamic(() => import("@/components/ai-assistant/ai-chatbot-enhanced").then((mod) => mod.AIChatbotEnhanced))
+// Only dynamically import the AI chatbot as it's not critical for initial page load
+const AIChatbotEnhanced = dynamic(() => import("@/components/ai-assistant/ai-chatbot-enhanced").then((mod) => mod.AIChatbotEnhanced), {
+    ssr: false
+})
 
 interface LayoutWrapperProps {
     children: React.ReactNode
@@ -24,17 +25,21 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
     const [hasCheckedAuth, setHasCheckedAuth] = useState(false)
     const router = useRouter()
     const pathname = usePathname()
+    const hasInitialized = useRef(false)
 
     useEffect(() => {
-        // Check authentication status immediately
-        const authStatus = localStorage.getItem('isAuthenticated')
-        const isAuth = authStatus === 'true'
-        setIsAuthenticated(isAuth)
-        setHasCheckedAuth(true)
+        // Only check auth once on mount, not on every pathname change
+        if (!hasInitialized.current) {
+            hasInitialized.current = true
+            const authStatus = localStorage.getItem('isAuthenticated')
+            const isAuth = authStatus === 'true'
+            setIsAuthenticated(isAuth)
+            setHasCheckedAuth(true)
 
-        // If not authenticated and not on login page, redirect to login
-        if (!isAuth && pathname !== '/login') {
-            router.push('/login')
+            // If not authenticated and not on login page, redirect to login
+            if (!isAuth && pathname !== '/login') {
+                router.push('/login')
+            }
         }
     }, [pathname, router])
 
@@ -58,9 +63,19 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
         setIsCollapsed(!isCollapsed)
     }
 
-    // Don't show anything until we've checked auth
+    // Show a minimal loading state while checking auth
     if (!hasCheckedAuth) {
-        return null
+        return (
+            <div className="flex h-screen items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50/30 to-blue-100/20">
+                <div className="animate-pulse">
+                    <img
+                        src="/st-louis-blues.svg"
+                        alt="Blues Logo"
+                        className="h-12 w-12 object-contain opacity-50"
+                    />
+                </div>
+            </div>
+        )
     }
 
     // If not authenticated, show login page (children will be login page)
